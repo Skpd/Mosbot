@@ -5,6 +5,7 @@ return [
         'DoctrineModule',
         'DoctrineMongoODMModule',
         'Runner',
+        'Web',
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
