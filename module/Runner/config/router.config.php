@@ -33,6 +33,15 @@ return [
                         ]
                     ]
                 ],
+                'spider-players' => [
+                    'options' => [
+                        'route'    => 'spider catch players [--id=]',
+                        'defaults' => [
+                            'controller' => 'Runner\Controller\Spider',
+                            'action'     => 'get-players'
+                        ]
+                    ]
+                ],
             ],
         ],
     ],

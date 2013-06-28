@@ -16,7 +16,7 @@ class Player
 
     /** @ODM\Field(type="int") */
     private $level;
-    /** @ODM\Field(type="int") */
+    /** @ODM\Field(type="string") */
     private $alignment;
     /** @ODM\Field(type="string") */
     private $nickname;
