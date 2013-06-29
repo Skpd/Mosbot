@@ -39,8 +39,9 @@ class SpiderController extends AbstractActionController
 
                 $this->getDocumentManager()->persist($player);
 
-                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 10) {
+                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 100) {
                     $this->getDocumentManager()->flush();
+                    $this->getDocumentManager()->clear();
                 }
             }
         } else {
