@@ -4,6 +4,7 @@ return [
     'modules'                 => [
         'DoctrineModule',
         'DoctrineMongoODMModule',
+        'ParallelJobs',
         'Runner',
         'Web',
     ],

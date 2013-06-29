@@ -26,6 +26,7 @@ class Spider implements ServiceLocatorAwareInterface
         if (!empty($alignment)) {
             $player->setAlignment($alignment->attributes->getNamedItem('class')->textContent);
         } else {
+            echo 'Nothing to do here ' . $player->getId() . PHP_EOL;
             return;
         }
 
@@ -55,6 +56,12 @@ class Spider implements ServiceLocatorAwareInterface
         $maxLife = preg_replace('/[^\d]+/', '', $maxLife);
 
         $player->setMaxLife($maxLife);
+
+        $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
+        $dm->persist($player);
+        $dm->flush();
+
+        echo 'Done ' . $player->getId() . PHP_EOL;
     }
 
     #region Getters / Setters

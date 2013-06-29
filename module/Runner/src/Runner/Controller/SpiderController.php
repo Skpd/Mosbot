@@ -25,24 +25,29 @@ class SpiderController extends AbstractActionController
                 $ids = array($ids);
             }
 
-            foreach ($ids as $id) {
-                /** @var $player Player */
-                $player = $this->getDocumentManager()->find('Runner\Document\Player', $id);
+            $childCount = 100;
 
-                if (empty($player)) {
-                    $player = new Player;
+            $manager = $this->serviceLocator->get('ForkManager');
+            $manager->setAutoStart(false);
+            $manager->createChildren($childCount);
+
+            for ($i = 0; $i < count($ids); $i += $childCount) {
+                for ($child = 0; $child < $childCount; $child++) {
+                    if ($i + $child >= count($ids)) break;
+                    /** @var $player Player */
+                    $player = $this->getDocumentManager()->find('Runner\Document\Player', $ids[$i + $child]);
+
+                    if (empty($player)) {
+                        $player = new Player;
+                        $player->setId(intval($ids[$i + $child]));
+                    }
+
+                    $manager->doTheJobChild($child, array($this->getSpider(), 'updatePlayer'), $player);
                 }
 
-                $player->setId(intval($id));
-
-                $this->getSpider()->updatePlayer($player);
-
-                $this->getDocumentManager()->persist($player);
-
-                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 100) {
-                    $this->getDocumentManager()->flush();
-                    $this->getDocumentManager()->clear();
-                }
+                $manager->start();
+                $manager->wait();
+                $manager->rewind();
             }
         } else {
             //todo: update existing players
