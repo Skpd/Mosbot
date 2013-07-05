@@ -43,6 +43,25 @@ class Player
     /** @ODM\Field(type="int") */
     private $charism;
 
+    /** @ODM\Field(type="boolean")   */
+    private $haveRocket;
+
+    /**
+     * @param mixed $haveRocket
+     */
+    public function setHaveRocket($haveRocket)
+    {
+        $this->haveRocket = $haveRocket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHaveRocket()
+    {
+        return $this->haveRocket;
+    }
+
     /**
      * @param mixed $alignment
      */

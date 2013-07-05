@@ -25,30 +25,45 @@ class SpiderController extends AbstractActionController
                 $ids = array($ids);
             }
 
-            $childCount = 100;
 
-            $manager = $this->serviceLocator->get('ForkManager');
-            $manager->setAutoStart(false);
-            $manager->createChildren($childCount);
+//            $childCount = 10;
+//
+//            $manager = $this->serviceLocator->get('ForkManager');
+//            $manager->setAutoStart(false);
+//            $manager->createChildren($childCount);
+//
+//            for ($i = 0; $i < count($ids); $i += $childCount) {
+//                $manager->createChildren($childCount);
+//                for ($child = 0; $child < $childCount; $child++) {
+//                    if ($i + $child >= count($ids)) break;
+//                    /** @var $player Player */
+//                    $player = $this->getDocumentManager()->find('Runner\Document\Player', $ids[$i + $child]);
+//
+//                    if (empty($player)) {
+//                        $player = new Player;
+//                        $player->setId(intval($ids[$i + $child]));
+//                    }
+//
+//                    $manager->doTheJobChild($child, array($this->getSpider(), 'updatePlayer'), $player);
+//                }
+//
+//                $manager->start();
+//                $manager->wait();
+//                $manager->rewind();
+//            }
+            foreach ($ids as $id) {
+                $player = $this->getDocumentManager()->find('Runner\Document\Player', $id);
 
-            for ($i = 0; $i < count($ids); $i += $childCount) {
-                for ($child = 0; $child < $childCount; $child++) {
-                    if ($i + $child >= count($ids)) break;
-                    /** @var $player Player */
-                    $player = $this->getDocumentManager()->find('Runner\Document\Player', $ids[$i + $child]);
-
-                    if (empty($player)) {
-                        $player = new Player;
-                        $player->setId(intval($ids[$i + $child]));
-                    }
-
-                    $manager->doTheJobChild($child, array($this->getSpider(), 'updatePlayer'), $player);
+                if (empty($player)) {
+                    $player = new Player;
+                    $player->setId(intval($id));
                 }
 
-                $manager->start();
-                $manager->wait();
-                $manager->rewind();
+                $this->getSpider()->updatePlayer($player);
+                $player = null;
             }
+
+
         } else {
             //todo: update existing players
         }

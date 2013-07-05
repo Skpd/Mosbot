@@ -19,7 +19,9 @@ class Spider implements ServiceLocatorAwareInterface
 
     public function updatePlayer(Player $player)
     {
-        $query = new Query($this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody());
+        $t = microtime(1);
+        $contents = $this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody();
+        $query = new Query($contents);
 
         $alignment = $query->execute('.user i')->current();
 
@@ -49,19 +51,22 @@ class Spider implements ServiceLocatorAwareInterface
 
         $statistics = $query->execute('.pers-statistics .numbers li');
 
-        $player->setWins(intval($statistics->offsetGet(1)->textContent));
-        $player->setLoot(intval($statistics->offsetGet(2)->textContent));
+        $player->setWins((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(1)->textContent));
+        $player->setLoot((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(2)->textContent));
 
         $maxLife = $query->execute('.pers-statistics .bars .life')->current()->childNodes->item(2)->textContent;
         $maxLife = preg_replace('/[^\d]+/', '', $maxLife);
 
         $player->setMaxLife($maxLife);
 
+        $player->setHaveRocket(strstr($contents, '/@/images/obj/rocket/proton.png') !== false);
+
         $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
         $dm->persist($player);
         $dm->flush();
+        $dm->clear();
 
-        echo 'Done ' . $player->getId() . PHP_EOL;
+        echo 'Done ' . $player->getId() . ' (' . (microtime(1) - $t) . ' sec ' . memory_get_peak_usage(1) . ' mem)' .  PHP_EOL;
     }
 
     #region Getters / Setters

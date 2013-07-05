@@ -8,7 +8,7 @@ return [
             'routes' => [
                 'login' => [
                     'options' => [
-                        'route'    => 'login <username> <password>',
+                        'route'    => 'login <username> [<password>]',
                         'defaults' => [
                             'controller' => 'Runner\Controller\Index',
                             'action'     => 'index'
