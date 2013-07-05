@@ -14,7 +14,7 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/500',
         'template_map'             => [
-            'layout/layout'      => __DIR__ . '/../view/generic/layout-default.phtml',
+            'layout/layout'      => __DIR__ . '/../view/generic/layout-placeholder.phtml',
         ],
         'template_path_stack'      => [
             __DIR__ . '/../view',

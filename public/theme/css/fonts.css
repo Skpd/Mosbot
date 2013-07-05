@@ -1,0 +1,9 @@
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic&subset=latin,cyrillic);
+body {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 400;
+}
+body input, body textarea {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 300;
+}
