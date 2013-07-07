@@ -4,7 +4,7 @@ return [
     'modules'                 => [
         'DoctrineModule',
         'DoctrineMongoODMModule',
-        'ParallelJobs',
+        'PhlySimplePage',
         'Runner',
         'Web',
     ],
