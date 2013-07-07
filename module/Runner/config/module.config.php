@@ -12,7 +12,8 @@ return [
     ],
     'service_manager' => [
         'invokables' => [
-            'spider' => 'Runner\Service\Spider'
+            'spider' => 'Runner\Service\Spider',
+            'runner' => 'Runner\Service\Runner'
         ]
     ]
 ];

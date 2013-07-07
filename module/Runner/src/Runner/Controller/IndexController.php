@@ -10,26 +10,29 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        $client = new Client('http://www.roswar.ru/');
-        $client->setOptions(['useragent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) Chrome/27.0.1453.116 Safari/537.36']);
+        /** @var \Runner\Service\Runner $runner */
+        $runner = $this->serviceLocator->get('runner');
 
-        $client->setMethod(Request::METHOD_POST);
-        $client->setUri('http://www.roswar.ru/');
-        $client->getRequest()->getPost()->fromArray(
-            [
-            'action'   => 'login',
-            'email'    => $this->params('username'),
-            ]
+        $runner->login($this->params('username'), $this->params('password', null));
+
+        $stats = [];
+
+        $runner->digLogs(
+            function ($content) use (&$stats) {
+                preg_match_all('#Вы прокачали характеристику «<b>(.+)</b>».*<b>(.+)</b>.*tugriki.*([\d,]+)<#imsU', $content, $matches);
+                for ($i = 0; $i < count($matches[0]); $i++) {
+                    $stats[$matches[1][$i]][$matches[2][$i]] = $matches[3][$i];
+                }
+            },
+            strtotime('20130626')
         );
 
-        $password = $this->params('password');
-
-        if (!empty($password)) {
-            $client->getRequest()->getPost()->set('password', $password);
+        foreach ($stats as $name => $stat) {
+            ksort($stat);
+            echo PHP_EOL . $name . PHP_EOL;
+            foreach ($stat as $value => $price) {
+                echo $value . "^x=" . (str_replace(',', '', $price)) . PHP_EOL;
+            }
         }
-
-        $response = $client->send();
-
-        \Zend\Debug\Debug::dump($response->getBody());
     }
 }
