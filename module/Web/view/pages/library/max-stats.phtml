@@ -1,9 +1,15 @@
+<? /* @var $this \Zend\View\Renderer\PhpRenderer */ ?>
 <? $this->headTitle('Максимальные Характеристики') ?>
+<? $this->headScript()->appendFile('//vk.com/js/api/openapi.js?97') ?>
+<? $this->headScript()->appendScript('VK.init({apiId: 3753967, onlyWidgets: true});') ?>
+<? $this->headScript()->appendScript('VK.Widgets.Comments("vk_comments", {limit: 10, width: "520", attach: "photo,video"});') ?>
+
 <section class="section section-padded">
     <div class="container-fluid">
         <div class="section-header">
             <h1>Максимальные Характеристики по уровням</h1>
         </div>
+        <p class="lead text-center">Данные характеристики выведены эксперементальным путем, возможны неточности.</p>
         <ul class="unstyled row-fluid thumbnails">
             <li class="span4">
                 <h2 class="text-center">1 Уровень</h2>
@@ -198,7 +204,7 @@
                     <tr>
                         <td>
                             <p class="pull-left">Харизма</p>
-                            <p class="pull-right">40</p>
+                            <p class="pull-right">30</p>
                         </td>
                     </tr>
                     </tbody>
@@ -248,7 +254,7 @@
                     <tr>
                         <td>
                             <p class="pull-left">Харизма</p>
-                            <p class="pull-right">42</p>
+                            <p class="pull-right">35</p>
                         </td>
                     </tr>
                     </tbody>
@@ -305,5 +311,10 @@
                 </table>
             </li>
         </ul>
+
+        <div class="comments-form">
+            <h3 class="comment-form small-screen-center">Оставить комментарий</h3>
+            <div id="vk_comments"></div>
+        </div>
     </div>
 </section>
