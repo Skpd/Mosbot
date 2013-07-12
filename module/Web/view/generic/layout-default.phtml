@@ -40,6 +40,19 @@
     <!-- Main Content -->
     <div id="content" role="main">
         <?=$this->content?>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="comments-form span12 text-center">
+                    <h3 class="comment-form small-screen-center">Оставить комментарий</h3>
+                    <div id="vk_comments" style="margin: 0 auto;"></div>
+                </div>
+
+                <? $this->headScript()->appendFile('//vk.com/js/api/openapi.js?97') ?>
+                <? $this->headScript()->appendScript('VK.init({apiId: 3753967, onlyWidgets: true});') ?>
+                <? $this->headScript()->appendScript('VK.Widgets.Comments("vk_comments", {limit: 10, width: "520", attach: "photo,video"});') ?>
+            </div>
+        </div>
     </div>
 </div>
 
