@@ -2,6 +2,7 @@
 
 namespace Runner\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Runner\Document\Player;
 use Zend\Dom\Query;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -60,6 +61,19 @@ class Spider implements ServiceLocatorAwareInterface
         $player->setMaxLife($maxLife);
 
         $player->setHaveRocket(strstr($contents, '/@/images/obj/rocket/proton.png') !== false);
+
+        $items = [];
+        for ($i = 0; $i < 9; $i++) {
+            $e = $query->execute(".slots .slot$i img")->current();
+
+            if (!empty($e)) {
+                $items[$i] = $e->attributes->getNamedItem('src')->textContent;
+            } else {
+                $items[$i] = null;
+            }
+        }
+
+        $player->setItems($items);
 
         $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
         $dm->persist($player);

@@ -3,10 +3,13 @@
 namespace Runner\Document;
 
 use \Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Player
  * @ODM\Document(db="mosbot", collection="players")
+ * @ODM\HasLifecycleCallbacks
+ *
  * @package Runner\Document
  */
 class Player
@@ -43,8 +46,29 @@ class Player
     /** @ODM\Field(type="int") */
     private $charism;
 
-    /** @ODM\Field(type="boolean")   */
+    /** @ODM\Field(type="boolean") */
     private $haveRocket;
+
+    /** @ODM\Field(type="hash") */
+    private $items;
+
+    /** @ODM\Field(type="int") */
+    private $coolness;
+
+    /** @ODM\Field(type="date") */
+    private $lastUpdate;
+
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+    }
+
+    /** @PrePersist */
+    public function doStuffOnPrePersist()
+    {
+        $this->lastUpdate = new \DateTime();
+        $this->coolness   = $this->health + $this->strength + $this->dexterity + $this->resistance + $this->intuition + $this->attention + $this->charism;
+    }
 
     /**
      * @param mixed $haveRocket
@@ -284,6 +308,54 @@ class Player
     public function getWins()
     {
         return $this->wins;
+    }
+
+    /**
+     * @param ArrayCollection $items
+     */
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param mixed $coolness
+     */
+    public function setCoolness($coolness)
+    {
+        $this->coolness = $coolness;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCoolness()
+    {
+        return $this->coolness;
+    }
+
+    /**
+     * @param mixed $lastUpdate
+     */
+    public function setLastUpdate($lastUpdate)
+    {
+        $this->lastUpdate = $lastUpdate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastUpdate()
+    {
+        return $this->lastUpdate;
     }
 
 
