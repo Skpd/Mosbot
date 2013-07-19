@@ -8,7 +8,6 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /**
  * Class Player
  * @ODM\Document(db="mosbot", collection="players")
- * @ODM\HasLifecycleCallbacks
  *
  * @package Runner\Document
  */
@@ -46,7 +45,7 @@ class Player
     /** @ODM\Field(type="int") */
     private $charism;
 
-    /** @ODM\Field(type="boolean") */
+    /** @ODM\Field(type="int") */
     private $haveRocket;
 
     /** @ODM\Field(type="hash") */
@@ -63,7 +62,7 @@ class Player
         $this->items = new ArrayCollection();
     }
 
-    /** @PrePersist */
+    /** @ODM\PrePersist */
     public function doStuffOnPrePersist()
     {
         $this->lastUpdate = new \DateTime();

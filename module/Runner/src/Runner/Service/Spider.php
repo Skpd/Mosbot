@@ -60,7 +60,14 @@ class Spider implements ServiceLocatorAwareInterface
 
         $player->setMaxLife($maxLife);
 
-        $player->setHaveRocket(strstr($contents, '/@/images/obj/rocket/proton.png') !== false);
+        if (strstr($contents, '/@/images/obj/rocket/proton.png') === false) {
+            $player->setHaveRocket(-1);
+        } else {
+            $parts = explode('|', $query->queryXpath("descendant-or-self::img[@src = '/@/images/obj/rocket/proton.png']")->current()->attributes->getNamedItem('title')->textContent);
+            $from  = strtotime(implode('-', array_reverse(explode('.', substr($parts[count($parts) - 2], 16, -7)))));
+            $to    = strtotime(implode('-', array_reverse(explode('.', substr($parts[count($parts) - 1], 17, -7)))));
+            $player->setHaveRocket((($to - $from) / 86400 / 7) - 1);
+        }
 
         $items = [];
         for ($i = 0; $i < 9; $i++) {
