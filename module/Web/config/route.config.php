@@ -15,6 +15,16 @@ return [
                     ]
                 ]
             ],
+            'fight-stats' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/fight-stats',
+                    'defaults' => [
+                        'controller' => 'Web\Controller\Index',
+                        'action'     => 'fight-stats'
+                    ]
+                ]
+            ],
             'library' => [
                 'type'          => 'literal',
                 'may_terminate' => true,

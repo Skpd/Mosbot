@@ -3,6 +3,11 @@
 namespace Runner;
 
 return [
+    'form_elements' => [
+        'invokables' => [
+            'FightStatsForm' => 'Web\Form\FightStats'
+        ]
+    ],
     'controllers' => [
         'invokables' => [
             'Web\Controller\Index' => 'Web\Controller\IndexController',

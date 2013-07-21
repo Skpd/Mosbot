@@ -1,0 +1,50 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \Zend\Form\Form
+ */
+?>
+
+<section class="section section-padded">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>Анализатор Стенок</h1>
+        </div>
+        <?= $this->form()->openTag($form->prepare()->setAttribute('action', $this->url() . '#results')) ?>
+        <div class="control-group">
+            <label class="control-label" for="url">Ссылка на лог боя</label>
+
+            <div class="controls">
+                <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')) ?>
+                <?= $this->formElementErrors($form->get('url')) ?>
+            </div>
+        </div>
+
+        <? if (isset($result)): ?>
+            <table class="table table-striped table-hover" id="results">
+                <thead>
+                <tr>
+                    <td>Ник</td>
+                    <td>Всего Урона</td>
+                </tr>
+                </thead>
+                <tbody>
+                <? foreach ($result as $nickname => $damage): ?>
+                    <tr>
+                        <td><?=$nickname?></td>
+                        <td><?=$damage?></td>
+                    </tr>
+                <? endforeach; ?>
+                </tbody>
+            </table>
+        <? endif; ?>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">
+                <i class="icon-refresh icon-white"></i>
+                Обновить
+            </button>
+        </div>
+        <?= $this->form()->closeTag($form) ?>
+    </div>
+</section>
