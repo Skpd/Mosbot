@@ -10,12 +10,12 @@
         <div class="section-header">
             <h1>Анализатор Стенок</h1>
         </div>
-        <?= $this->form()->openTag($form->prepare()->setAttribute('action', $this->url() . '#results')) ?>
+        <?= $this->form()->openTag($form->prepare()->setAttribute('action', $this->url(null, [], ['fragment' => 'results']))) ?>
         <div class="control-group">
             <label class="control-label" for="url">Ссылка на лог боя</label>
 
             <div class="controls">
-                <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')) ?>
+                <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')->setAttribute('id', 'url')) ?>
                 <?= $this->formElementErrors($form->get('url')) ?>
             </div>
         </div>
@@ -26,13 +26,21 @@
                 <tr>
                     <td>Ник</td>
                     <td>Всего Урона</td>
+                    <td>Убийств</td>
+                    <td>Урон по своим</td>
+                    <td>Урон петом</td>
+                    <td>Урон петом<br>по пету</td>
                 </tr>
                 </thead>
                 <tbody>
-                <? foreach ($result as $nickname => $damage): ?>
+                <? foreach ($result as $nickname => $damages): ?>
                     <tr>
                         <td><?=$nickname?></td>
-                        <td><?=$damage?></td>
+                        <td><?=$damages['sum']?></td>
+                        <td><?=$damages['kills']?></td>
+                        <td><?=$damages['ally']?></td>
+                        <td><?=$damages['pet-enemy']?></td>
+                        <td><?=$damages['pet-pet']?></td>
                     </tr>
                 <? endforeach; ?>
                 </tbody>
