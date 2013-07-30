@@ -12,6 +12,8 @@
         "zendframework/zendframework": "2.*",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
         "blanchonvincent/parallel-jobs": "dev-master",
-        "phly/phly-simple-page": "dev-master"
+        "phly/phly-simple-page": "dev-master",
+        "claylo/selenium-server-standalone": "2.32.0",
+        "xi/test-selenium": "1.0.0"
     }
 }

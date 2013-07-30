@@ -44,8 +44,19 @@ class IndexController extends AbstractActionController
                 }
 
                 foreach ($result as $player => $damages) {
-                    $result[$player]        = array_map('array_sum', $damages);
-                    $result[$player]['sum'] = $result[$player]['enemy'] + $result[$player]['pet-enemy'];
+                    foreach ($damages as $k => $v) {
+                        if (!is_array($v)) {
+                            unset($result[$player]);
+                        } else if ($k == 'team') {
+                            $result[$player][$k] = current($v);
+                        } else if (isset($result[$player])) {
+                            $result[$player][$k] = array_sum($v);
+                        }
+                    }
+
+                    if (isset($result[$player])) {
+                        $result[$player]['sum'] = $result[$player]['enemy'] + $result[$player]['pet-enemy'];
+                    }
                 }
 
                 uasort(
@@ -58,6 +69,13 @@ class IndexController extends AbstractActionController
                     }
                 );
 
+                $teams = ['Левые' => 0, 'Правые' => 0];
+
+                foreach ($result as $damages) {
+                    $teams[$damages['team']] += $damages['sum'];
+                }
+
+                $view->setVariable('teams', $teams);
                 $view->setVariable('result', $result);
             }
         }
@@ -86,8 +104,8 @@ class IndexController extends AbstractActionController
                     $pet = null;
                 }
 
-                $players[$e->textContent] = ['name' => $e->textContent, 'pet' => $pet, 'team' => $i];
-                $result[$e->textContent]  = ['ally' => 0, 'enemy' => 0, 'kills' => 0, 'pet-pet' => 0, 'pet-enemy' => 0];
+                $players[$e->textContent] = ['name' => $e->textContent, 'pet' => $pet, 'team' => $i == 2 ? 'Правые' : 'Левые'];
+                $result[$e->textContent]  = ['ally' => 0, 'enemy' => 0, 'kills' => 0, 'pet-pet' => 0, 'pet-enemy' => 0, 'team' => $i == 2 ? 'Правые' : 'Левые'];
             }
         }
 
@@ -100,6 +118,7 @@ class IndexController extends AbstractActionController
             if ($action->childNodes->length == 0 || $action->attributes->getNamedItem('class')->textContent == 'line'
                 || $action->childNodes->length == 6
                 || $action->childNodes->length == 7
+                || $action->lastChild->textContent == ' сохраняет флаг'
             ) {
                 continue;
             }

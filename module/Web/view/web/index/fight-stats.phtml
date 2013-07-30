@@ -1,10 +1,12 @@
 <?
 /**
- * @var $this \Zend\View\Renderer\PhpRenderer
- * @var $form \Zend\Form\Form
+ * @var $this   \Zend\View\Renderer\PhpRenderer
+ * @var $form   \Zend\Form\Form
+ * @var $result array
+ * @var $teams  array
  */
 ?>
-
+<? $this->headTitle('Анализатор Стенок') ?>
 <section class="section section-padded">
     <div class="container-fluid">
         <div class="section-header">
@@ -15,7 +17,10 @@
             <label class="control-label" for="url">Ссылка на лог боя</label>
 
             <div class="controls">
-                <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')->setAttribute('id', 'url')) ?>
+                <div class="input-append">
+                    <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')->setAttribute('id', 'url')) ?>
+                    <button type="submit" class="btn btn-primary"><i class="icon-refresh"></i></button>
+                </div>
                 <?= $this->formElementErrors($form->get('url')) ?>
             </div>
         </div>
@@ -30,29 +35,31 @@
                     <td>Урон по своим</td>
                     <td>Урон петом</td>
                     <td>Урон петом<br>по пету</td>
+                    <td>Команда</td>
                 </tr>
                 </thead>
                 <tbody>
                 <? foreach ($result as $nickname => $damages): ?>
                     <tr>
-                        <td><?=$nickname?></td>
-                        <td><?=$damages['sum']?></td>
-                        <td><?=$damages['kills']?></td>
-                        <td><?=$damages['ally']?></td>
-                        <td><?=$damages['pet-enemy']?></td>
-                        <td><?=$damages['pet-pet']?></td>
+                        <td><?= $nickname ?></td>
+                        <td>
+                            <p class="lead">
+                                <?= $damages['sum'] ?>
+                                <span class="muted">
+                                    <?=round($damages['sum'] / ($teams[$damages['team']] / 100), 2) ?>%
+                                </span>
+                            </p>
+                        </td>
+                        <td><?= $damages['kills'] ?></td>
+                        <td><?= $damages['ally'] ?></td>
+                        <td><?= $damages['pet-enemy'] ?></td>
+                        <td><?= $damages['pet-pet'] ?></td>
+                        <td><?= $damages['team'] ?></td>
                     </tr>
                 <? endforeach; ?>
                 </tbody>
             </table>
         <? endif; ?>
-
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-large">
-                <i class="icon-refresh icon-white"></i>
-                Обновить
-            </button>
-        </div>
         <?= $this->form()->closeTag($form) ?>
     </div>
 </section>
