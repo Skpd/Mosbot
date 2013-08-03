@@ -5,7 +5,7 @@ namespace Runner;
 return [
     'router' => [
         'routes' => [
-            'home'    => [
+            'home'        => [
                 'type'    => 'literal',
                 'options' => [
                     'route'    => '/',
@@ -14,6 +14,28 @@ return [
                         'action'     => 'index'
                     ]
                 ]
+            ],
+            'players'     => [
+                'type'          => 'literal',
+                'may_terminate' => true,
+                'options'       => [
+                    'route'    => '/players',
+                    'defaults' => [
+                        'controller' => 'Web\Controller\Players',
+                        'action'     => 'index'
+                    ]
+                ],
+                'child_routes'  => [
+                    'list' => [
+                        'type'     => 'literal',
+                        'options'  => [
+                            'route' => '/list',
+                            'defaults' => [
+                                'action' => 'get-list'
+                            ]
+                        ],
+                    ]
+                ],
             ],
             'fight-stats' => [
                 'type'    => 'literal',
@@ -25,7 +47,7 @@ return [
                     ]
                 ]
             ],
-            'library' => [
+            'library'     => [
                 'type'          => 'literal',
                 'may_terminate' => true,
                 'options'       => [

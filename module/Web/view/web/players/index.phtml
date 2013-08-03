@@ -1,0 +1,62 @@
+<? /** @var $this   \Zend\View\Renderer\PhpRenderer */ ?>
+
+<section class="section section-padded">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>Рейтинг Игроков</h1>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped" id="players">
+        <thead>
+        <tr>
+            <th class="span2">ID</th>
+            <th class="span2">Сторона</th>
+            <th>Имя</th>
+            <th class="span1">Lvl</th>
+            <th class="span2">Сумма статов</th>
+            <th class="span2">Побед</th>
+            <th class="span2">Награблено</th>
+        </tr>
+        </thead>
+    </table>
+</section>
+
+<? $this->headScript()->appendFile('js/jquery.dataTables.min.js') ?>
+<? $this->headScript()->appendFile('js/TableTools.min.js') ?>
+<? $this->headLink()->appendStylesheet('css/dataTables.css') ?>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function($) {
+        $('#players').dataTable({
+            sDom: 'r<"row"<"span6"l><"span6"T>>t<"row-fluid"<"span6"i><"span6 text-right"p>>',
+            bServerSide: true,
+            bProcessing: true,
+            bSearchable: false,
+            bLengthChange: false,
+            sServerMethod: 'GET',
+            sPaginationType: 'bootstrap',
+            sAjaxSource: '<?=$this->url('players/list')?>',
+            aaSorting: [
+                [0, 'asc']
+            ],
+            aoColumns: [
+                {mData: 'id'},
+                {mData: 'alignment'},
+                {mData: 'nickname', fnRender: function(row, data) {
+                    return '<a title="Открыть  страницу игрока" target="_blank" href="http://www.roswar.ru/player/' + row.aData['id'] + '/">' + data + ' <i class="icon-external-link"></i></a>';
+                }},
+                {mData: 'level'},
+                {mData: 'coolness'},
+                {mData: 'wins'},
+                {mData: 'loot'}
+            ],
+            oTableTools: {
+                sRowSelect: "multi",
+                aButtons: []
+            }
+        });
+    })(jQuery);
+//</script>
+<? $this->headScript()->captureEnd() ?>
