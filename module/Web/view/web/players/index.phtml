@@ -11,6 +11,15 @@
         <thead>
         <tr>
             <th class="span2">ID</th>
+            <th class="span2"></th>
+            <th>Имя</th>
+            <th class="span1">Lvl</th>
+            <th class="span2">Сумма статов</th>
+            <th class="span2">Побед</th>
+            <th class="span2">Награблено</th>
+        </tr>
+        <tr>
+            <th class="span2">ID</th>
             <th class="span2">Сторона</th>
             <th>Имя</th>
             <th class="span1">Lvl</th>
@@ -22,15 +31,17 @@
     </table>
 </section>
 
-<? $this->headScript()->appendFile('js/jquery.dataTables.min.js') ?>
-<? $this->headScript()->appendFile('js/TableTools.min.js') ?>
 <? $this->headLink()->appendStylesheet('css/dataTables.css') ?>
+
+<? $this->headScript()->appendFile('js/jquery.dataTables.min.js') ?>
+<? $this->headScript()->appendFile('js/jquery.dataTables.columnFilter.js') ?>
+<? $this->headScript()->appendFile('js/TableTools.min.js') ?>
 
 <? $this->headScript()->captureStart() ?>
 //<script type="text/javascript">
     (function($) {
-        $('#players').dataTable({
-            sDom: 'r<"row"<"span6"l><"span6"T>>t<"row-fluid"<"span6"i><"span6 text-right"p>>',
+        var table = $('#players').dataTable({
+            sDom: 'r<"row-fluid"<"span6"l><"span6 text-right"T>><"section-padded"t><"row-fluid"<"span6"i><"span6 text-right"p>>',
             bServerSide: true,
             bProcessing: true,
             bSearchable: false,
@@ -53,9 +64,34 @@
                 {mData: 'loot'}
             ],
             oTableTools: {
-                sRowSelect: "multi",
-                aButtons: []
+                sRowSelect: 'multi',
+                sSelectedClass: 'info',
+                aButtons: [
+                    {
+                        sExtends: 'select',
+                        sButtonText: 'Обновить'
+                    },
+                    {
+                        sExtends: 'select',
+                        sButtonText: 'Добавить в жертвы',
+                        sButtonClass: 'btn-primary'
+                    }
+                ]
             }
+        });
+
+        table.columnFilter({
+            sPlaceHolder: "head:after",
+            iFilteringDelay: 500,
+            aoColumns: [
+                {type: 'number-range'},
+                {type: 'select', values: ['arrived', 'resident']},
+                {type: 'text'},
+                {type: 'number-range'},
+                {type: 'number-range'},
+                {type: 'number-range'},
+                {type: 'number-range'}
+            ]
         });
     })(jQuery);
 //</script>

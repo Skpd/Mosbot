@@ -26,7 +26,7 @@ class PlayersController extends AbstractActionController
         $builder->limit($parameters['iDisplayLength']);
         $builder->skip($parameters['iDisplayStart']);
 
-        $builder->field('alignment')->notEqual(null);
+        $builder->field('lastUpdate')->exists(true);
 
         $columns = array();
 
@@ -50,6 +50,54 @@ class PlayersController extends AbstractActionController
             }
         }
 
+        $separator = $parameters['sRangeSeparator'];
+
+        foreach ($columns as $key => $column) {
+            if ($parameters['bSearchable_' . $key]) {
+                $columnSearchValue = $parameters['sSearch_' . $key];
+
+                if ($columnSearchValue !== null && $columnSearchValue != '' && $columnSearchValue != $separator) {
+
+                    $separatorPosition = strpos($columnSearchValue, $separator);
+
+                    if ($separatorPosition !== false) {
+                        $columnSearchValue = explode($separator, $columnSearchValue);
+
+                        foreach ($columnSearchValue as $k => $v) {
+                            if ($v == '') {
+                                unset($columnSearchValue[$k]);
+                            }
+                        }
+
+                    }
+
+                    if ($metadata->getTypeOfField($column) == 'int') {
+                        $columnSearchValue = is_array($columnSearchValue) ? array_map('intval', $columnSearchValue) : intval($columnSearchValue);
+                    }
+
+                    switch ($column) {
+                        default:
+                            if (is_array($columnSearchValue)) {
+                                if ($separatorPosition != 0 && isset($columnSearchValue[1])) {
+                                    $builder->field($column)->lte($columnSearchValue[1]);
+                                }
+
+                                if ($separatorPosition != strlen($parameters['sSearch_' . $key]) && isset($columnSearchValue[0])) {
+                                    $builder->field($column)->gte($columnSearchValue[0]);
+                                }
+                            } else {
+                                $builder->field($column)->equals($columnSearchValue);
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        $debug = $builder->getQuery()->debug();
+
+        if (!empty($debug)) {
+//            var_dump(json_encode($debug));
+        }
         $data = array();
 
         foreach ($builder->getQuery()->getIterator() as $record) {

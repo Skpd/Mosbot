@@ -47,6 +47,16 @@ return [
                     ]
                 ]
             ],
+            'map-test' => [
+                'type'    => 'literal',
+                'options' => [
+                    'route'    => '/map',
+                    'defaults' => [
+                        'controller' => 'PhlySimplePage\Controller\Page',
+                        'template'   => 'pages/library/map-test.phtml'
+                    ]
+                ]
+            ],
             'library'     => [
                 'type'          => 'literal',
                 'may_terminate' => true,
