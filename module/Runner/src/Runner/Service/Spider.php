@@ -21,6 +21,7 @@ class Spider implements ServiceLocatorAwareInterface
     public function updatePlayer(Player $player)
     {
         $t = microtime(1);
+
         $contents = $this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody();
         $query = new Query($contents);
 

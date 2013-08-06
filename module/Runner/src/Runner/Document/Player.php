@@ -57,9 +57,26 @@ class Player
     /** @ODM\Field(type="date") */
     private $lastUpdate;
 
+    /** @ODM\Field(type="date") */
+    private $lastChange;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
+    }
+
+    private function checkState($property, $value)
+    {
+        $oldValue = $this->{$property};
+
+        if ($oldValue instanceof ArrayCollection && !$value instanceof ArrayCollection) {
+            $oldValue = $oldValue->toArray();
+        }
+
+        if ($oldValue != $value) {
+            var_dump($property, $value, $this->{$property});
+            $this->lastChange = new \DateTime();
+        }
     }
 
     /** @ODM\PrePersist */
@@ -202,6 +219,7 @@ class Player
      */
     public function setLevel($level)
     {
+        $this->checkState('level', $level);
         $this->level = $level;
     }
 
@@ -218,6 +236,7 @@ class Player
      */
     public function setLoot($loot)
     {
+        $this->checkState('loot', $loot);
         $this->loot = $loot;
     }
 
@@ -234,6 +253,7 @@ class Player
      */
     public function setMaxLife($maxLife)
     {
+        $this->checkState('maxLife', $maxLife);
         $this->maxLife = $maxLife;
     }
 
@@ -298,6 +318,7 @@ class Player
      */
     public function setWins($wins)
     {
+        $this->checkState('wins', $wins);
         $this->wins = $wins;
     }
 
@@ -314,6 +335,7 @@ class Player
      */
     public function setItems($items)
     {
+        $this->checkState('items', $items);
         $this->items = $items;
     }
 
@@ -330,6 +352,7 @@ class Player
      */
     public function setCoolness($coolness)
     {
+        $this->checkState('coolness', $coolness);
         $this->coolness = $coolness;
     }
 
@@ -357,5 +380,19 @@ class Player
         return $this->lastUpdate;
     }
 
+    /**
+     * @param mixed $lastChange
+     */
+    public function setLastChange($lastChange)
+    {
+        $this->lastChange = $lastChange;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getLastChange()
+    {
+        return $this->lastChange;
+    }
 }

@@ -52,7 +52,7 @@ class SpiderController extends AbstractActionController
 //                $manager->rewind();
 //            }
             foreach ($ids as $id) {
-                $player = $this->getDocumentManager()->find('Runner\Document\Player', $id);
+                $player = $this->getDocumentManager()->find('Runner\Document\Player', intval($id));
 
                 if (empty($player)) {
                     $player = new Player;
