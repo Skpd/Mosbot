@@ -71,7 +71,7 @@ class PlayersController extends AbstractActionController
 
                     }
 
-                    if ($metadata->getTypeOfField($column) == 'int') {
+                    if ($metadata->getTypeOfField($column) == 'int' || $metadata->getTypeOfField($column) == 'custom_id') {
                         $columnSearchValue = is_array($columnSearchValue) ? array_map('intval', $columnSearchValue) : intval($columnSearchValue);
                     }
 
