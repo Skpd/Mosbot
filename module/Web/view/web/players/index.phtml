@@ -10,22 +10,22 @@
     <table class="table table-bordered table-hover table-striped" id="players">
         <thead>
         <tr>
-            <th class="span2">ID</th>
+            <th class="span1">ID</th>
             <th class="span2"></th>
             <th>Имя</th>
             <th class="span1">Lvl</th>
-            <th class="span2">Сумма статов</th>
-            <th class="span2">Побед</th>
-            <th class="span2">Награблено</th>
+            <th class="span1">Сумма статов</th>
+            <th class="span1">Побед</th>
+            <th class="span1">Награблено</th>
         </tr>
         <tr>
-            <th class="span2">ID</th>
+            <th class="span1">ID</th>
             <th class="span2">Сторона</th>
             <th>Имя</th>
             <th class="span1">Lvl</th>
-            <th class="span2">Сумма статов</th>
-            <th class="span2">Побед</th>
-            <th class="span2">Награблено</th>
+            <th class="span1">Сумма статов</th>
+            <th class="span1">Побед</th>
+            <th class="span1">Награблено</th>
         </tr>
         </thead>
     </table>
@@ -45,7 +45,11 @@
             bServerSide: true,
             bProcessing: true,
             bSearchable: false,
+            oLanguage: {
+                sProcessing: '<div class="spinner"></div>'
+            },
             bLengthChange: false,
+            bStateSave: true,
             sServerMethod: 'GET',
             sPaginationType: 'bootstrap',
             sAjaxSource: '<?=$this->url('players/list')?>',
@@ -64,20 +68,24 @@
                 {mData: 'loot'}
             ],
             oTableTools: {
-                sRowSelect: 'multi',
-                sSelectedClass: 'info',
-                aButtons: [
-                    {
-                        sExtends: 'select',
-                        sButtonText: 'Обновить'
-                    },
-                    {
-                        sExtends: 'select',
-                        sButtonText: 'Добавить в жертвы',
-                        sButtonClass: 'btn-primary'
-                    }
-                ]
+                aButtons: []
             }
+//            ,
+//            oTableTools: {
+//                sRowSelect: 'multi',
+//                sSelectedClass: 'info',
+//                aButtons: [
+//                    {
+//                        sExtends: 'select',
+//                        sButtonText: 'Обновить'
+//                    },
+//                    {
+//                        sExtends: 'select',
+//                        sButtonText: 'Добавить в жертвы',
+//                        sButtonClass: 'btn-primary'
+//                    }
+//                ]
+//            }
         });
 
         table.columnFilter({
