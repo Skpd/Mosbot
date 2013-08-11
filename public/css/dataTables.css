@@ -1,0 +1,108 @@
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+    cursor: pointer;
+    *cursor: hand;
+}
+
+table.table thead .sorting { background: url('../img/sort_both.png') no-repeat center right; vertical-align: middle; }
+table.table thead .sorting_asc { background: url('../img/sort_asc.png') no-repeat center right; vertical-align: middle; }
+table.table thead .sorting_desc { background: url('../img/sort_desc.png') no-repeat center right; vertical-align: middle; }
+
+table.table thead .sorting_asc_disabled { background: url('../img/sort_asc_disabled.png') no-repeat center right; vertical-align: middle; }
+table.table thead .sorting_desc_disabled { background: url('../img/sort_desc_disabled.png') no-repeat center right; vertical-align: middle; }
+
+table.table thead th {
+    vertical-align: middle;
+}
+
+.dataTables_wrapper .pagination {
+    margin: 0;
+}
+
+.dataTables_wrapper .table {
+    border: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.dataTables_info {
+    padding: 4px 0;
+}
+
+.dataTables_length {
+    padding: 8px 0;
+}
+
+.dataTables_wrapper {
+    position: relative;
+}
+
+.dataTables_wrapper .table .open-row {
+    text-align: center;
+}
+
+.dataTables_wrapper .search_init, .dataTables_wrapper .number_range_filter {
+    width: 75px;
+    clear: both;
+}
+
+.dataTables_processing {
+    position: absolute;
+    z-index: 10;
+    background: #000;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+}
+
+.dataTables_processing::selection {
+    background: #000;
+}
+
+.spinner {
+    top: 50%;
+    height:60px;
+    width:60px;
+    margin:-30px auto 0 auto;
+    position:relative;
+    -webkit-animation: rotation .6s infinite linear;
+    -moz-animation: rotation .6s infinite linear;
+    -o-animation: rotation .6s infinite linear;
+    animation: rotation .6s infinite linear;
+    border:6px solid rgb(93, 93, 93);
+    border-radius:100%;
+}
+
+.spinner:before {
+    content:"";
+    display:block;
+    position:absolute;
+    left:-6px;
+    top:-6px;
+    height:100%;
+    width:100%;
+    border-top:6px solid rgb(255, 255, 255);
+    border-left:6px solid transparent;
+    border-bottom:6px solid transparent;
+    border-right:6px solid transparent;
+    border-radius:100%;
+}
+
+@-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(359deg);}
+}
+@-moz-keyframes rotation {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(359deg);}
+}
+@-o-keyframes rotation {
+    from {-o-transform: rotate(0deg);}
+    to {-o-transform: rotate(359deg);}
+}
+@keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(359deg);}
+}
