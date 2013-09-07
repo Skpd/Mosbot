@@ -12,6 +12,8 @@
         <tr>
             <th class="span1">ID</th>
             <th class="span2"></th>
+<!--            <th class="span2"></th>-->
+            <th class="span1">№ Клана</th>
             <th>Имя</th>
             <th class="span1">Lvl</th>
             <th class="span1">Сумма статов</th>
@@ -20,7 +22,9 @@
         </tr>
         <tr>
             <th class="span1">ID</th>
+<!--            <th class="span2">Статус</th>-->
             <th class="span2">Сторона</th>
+            <th class="span1">№ Клана</th>
             <th>Имя</th>
             <th class="span1">Lvl</th>
             <th class="span1">Сумма статов</th>
@@ -58,7 +62,9 @@
             ],
             aoColumns: [
                 {mData: 'id'},
+//                {mData: 'state'},
                 {mData: 'alignment'},
+                {mData: 'clan'},
                 {mData: 'nickname', fnRender: function(row, data) {
                     return '<a title="Открыть  страницу игрока" target="_blank" href="http://www.roswar.ru/player/' + row.aData['id'] + '/">' + data + ' <i class="icon-external-link"></i></a>';
                 }},
@@ -93,7 +99,9 @@
             iFilteringDelay: 500,
             aoColumns: [
                 {type: 'number-range'},
+//                {type: 'select', values: ['frozen', 'blocked', 'active']},
                 {type: 'select', values: ['arrived', 'resident']},
+                {type: 'number'},
                 {type: 'text'},
                 {type: 'number-range'},
                 {type: 'number-range'},
