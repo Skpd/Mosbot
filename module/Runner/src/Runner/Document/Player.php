@@ -8,13 +8,22 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /**
  * Class Player
  * @ODM\Document(db="mosbot", collection="players")
- *
  * @package Runner\Document
  */
 class Player
 {
+    const STATE_ACTIVE  = 'active';
+    const STATE_FROZEN  = 'frozen';
+    const STATE_BLOCKED = 'blocked';
+
     /** @ODM\Id(strategy="NONE", type="int") */
     private $id;
+
+    /** @ODM\Field(type="int") */
+    private $clan = 0;
+
+    /** @ODM\Field(type="string") */
+    private $state = Player::STATE_ACTIVE;
 
     /** @ODM\Field(type="int") */
     private $level;
@@ -45,9 +54,6 @@ class Player
     /** @ODM\Field(type="int") */
     private $charism;
 
-    /** @ODM\Field(type="int") */
-    private $haveRocket;
-
     /** @ODM\Field(type="hash") */
     private $items;
 
@@ -74,32 +80,8 @@ class Player
         }
 
         if ($oldValue != $value) {
-            var_dump($property, $value, $this->{$property});
             $this->lastChange = new \DateTime();
         }
-    }
-
-    /** @ODM\PrePersist */
-    public function doStuffOnPrePersist()
-    {
-        $this->lastUpdate = new \DateTime();
-        $this->coolness   = $this->health + $this->strength + $this->dexterity + $this->resistance + $this->intuition + $this->attention + $this->charism;
-    }
-
-    /**
-     * @param mixed $haveRocket
-     */
-    public function setHaveRocket($haveRocket)
-    {
-        $this->haveRocket = $haveRocket;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHaveRocket()
-    {
-        return $this->haveRocket;
     }
 
     /**
@@ -394,5 +376,38 @@ class Player
     public function getLastChange()
     {
         return $this->lastChange;
+    }
+
+    /**
+     * @param mixed $clan
+     */
+    public function setClan($clan)
+    {
+        $this->clan = $clan;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClan()
+    {
+        return $this->clan;
+    }
+
+    /**
+     * @param mixed $state
+     */
+    public function setState($state)
+    {
+        $this->checkState('state', $state);
+        $this->state = $state;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }

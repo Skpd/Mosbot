@@ -2,7 +2,6 @@
 
 namespace Runner\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Runner\Document\Player;
 use Zend\Dom\Query;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -21,7 +20,6 @@ class Spider implements ServiceLocatorAwareInterface
     public function updatePlayer(Player $player)
     {
         $t = microtime(1);
-
         $contents = $this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody();
         $query = new Query($contents);
 
@@ -34,9 +32,14 @@ class Spider implements ServiceLocatorAwareInterface
             return;
         }
 
-
         $player->setNickname($query->execute(".user a[href='/player/{$player->getId()}/']")->current()->textContent);
         $player->setLevel(str_replace(['[', ']'], '', $query->execute(".user .level")->current()->textContent));
+
+        if ($query->execute('.user a')->count() === 2) {
+            $player->setClan(preg_replace('/[^\d]+/', '', $query->execute('.user a')->current()->attributes->getNamedItem('href')->textContent));
+        } else {
+            $player->setClan(0);
+        }
 
         foreach ($query->execute('.stats .stat .num') as $k => $stat) {
             if ($k >= 7) {
@@ -61,15 +64,6 @@ class Spider implements ServiceLocatorAwareInterface
 
         $player->setMaxLife($maxLife);
 
-        if (strstr($contents, '/@/images/obj/rocket/proton.png') === false) {
-            $player->setHaveRocket(-1);
-        } else {
-            $parts = explode('|', $query->queryXpath("descendant-or-self::img[@src = '/@/images/obj/rocket/proton.png']")->current()->attributes->getNamedItem('title')->textContent);
-            $from  = strtotime(implode('-', array_reverse(explode('.', substr($parts[count($parts) - 2], 16, -7)))));
-            $to    = strtotime(implode('-', array_reverse(explode('.', substr($parts[count($parts) - 1], 17, -7)))));
-            $player->setHaveRocket((($to - $from) / 86400 / 7) - 1);
-        }
-
         $items = [];
         for ($i = 0; $i < 9; $i++) {
             $e = $query->execute(".slots .slot$i img")->current();
@@ -82,6 +76,12 @@ class Spider implements ServiceLocatorAwareInterface
         }
 
         $player->setItems($items);
+
+        $player->setLastUpdate(new \DateTime());
+        $player->setCoolness(
+            $player->getHealth() + $player->getStrength() + $player->getDexterity() +
+            $player->getResistance() + $player->getIntuition() + $player->getAttention() + $player->getCharism()
+        );
 
         $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
         $dm->persist($player);

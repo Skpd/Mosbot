@@ -28,6 +28,7 @@ class SpiderController extends AbstractActionController
 
 //            $childCount = 10;
 //
+//            /** @var \ParallelJobs\System\Fork\ForkManager $manager */
 //            $manager = $this->serviceLocator->get('ForkManager');
 //            $manager->setAutoStart(false);
 //            $manager->createChildren($childCount);
@@ -51,6 +52,7 @@ class SpiderController extends AbstractActionController
 //                $manager->wait();
 //                $manager->rewind();
 //            }
+
             foreach ($ids as $id) {
                 $player = $this->getDocumentManager()->find('Runner\Document\Player', intval($id));
 
