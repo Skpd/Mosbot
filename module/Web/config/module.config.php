@@ -1,6 +1,6 @@
 <?php
 
-namespace Runner;
+namespace Web;
 
 return [
     'form_elements' => [
@@ -27,7 +27,30 @@ return [
     'service_manager' => array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
+            'FightAnalyzer' => function ($sm) {
+                $service = new Service\FightAnalyzer;
+                $service->setServiceLocator($sm);
+
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\BeginTime());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Separator());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Heal());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Bang());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\HelmetHit());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\NormalHit());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\StrikeHit());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\PetHit());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Miss());
+
+
+                $service->getEventManager()->attach('analyze.pre', new Fight\Events\Teams());
+
+                return $service;
+            }
+
         ),
+        'invokables' => [
+        ]
     ),
     'view_manager'    => [
         'display_not_found_reason' => true,

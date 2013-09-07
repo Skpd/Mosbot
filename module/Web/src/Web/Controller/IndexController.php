@@ -29,6 +29,12 @@ class IndexController extends AbstractActionController
                 $result = [];
 
                 $data  = $form->getData();
+                if (preg_match('#/fight/(\d+)#i', $data['url'], $m)) {
+                    header('Content-Type: text/html; charset=utf-8');
+                    $id = $m[1];
+                    $this->serviceLocator->get('FightAnalyzer')->analyze($id);
+                }
+                exit;
                 $query = new Query(ClientStatic::get($data['url'])->getBody());
 
                 $links = $query->execute('.pagescroll .block-rounded > *');

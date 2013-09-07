@@ -39,6 +39,7 @@ return array(
             'odm_default' => array(
                 'drivers' => array(
                     'Runner\Document' => 'runner',
+                    'Web' => 'web'
                 )
             ),
             'runner' => array(
@@ -46,6 +47,13 @@ return array(
                 'cache' => 'array',
                 'paths' => array(
                     'module/Runner/src/Runner/Document'
+                )
+            ),
+            'web' => array(
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    'module/Runner/src/Web/Document'
                 )
             ),
         ),
