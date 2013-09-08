@@ -42,8 +42,10 @@ return [
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Miss());
 
-
                 $service->getEventManager()->attach('analyze.pre', new Fight\Events\Teams());
+
+                $service->getEventManager()->attach('analyze.post', new Fight\Events\Winner());
+                $service->getEventManager()->attach('analyze.post', new Fight\Events\DamagePercentage());
 
                 return $service;
             }
