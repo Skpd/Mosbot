@@ -27,6 +27,8 @@ class Teams
                     $player = new Player();
                     $player->setId($playerID);
                     $player->setNickname($item->textContent);
+                    $player->setState(null);
+                    $player->setClan(null);
 
                     $stat = new PlayerStat();
                     $stat->setPlayer($player);
