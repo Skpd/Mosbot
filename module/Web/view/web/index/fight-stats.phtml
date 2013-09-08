@@ -2,11 +2,29 @@
 /**
  * @var $this   \Zend\View\Renderer\PhpRenderer
  * @var $form   \Zend\Form\Form
- * @var $result array
- * @var $teams  array
+ * @var $result \Web\Document\FightResult
  */
 ?>
 <? $this->headTitle('Анализатор Стенок') ?>
+
+<style type="text/css">
+    .table.winner th {
+        border-bottom: 1px solid green;
+    }
+
+    .table.winner thead {
+        border: 1px solid green;
+    }
+
+    .table.looser th {
+        border-bottom: 1px solid red;
+    }
+
+    .table.looser thead {
+        border: 1px solid red;
+    }
+</style>
+
 <section class="section section-padded">
     <div class="container-fluid">
         <div class="section-header">
@@ -26,40 +44,75 @@
         </div>
 
         <? if (isset($result)): ?>
-            <table class="table table-striped table-hover" id="results">
-                <thead>
-                <tr>
-                    <td>Ник</td>
-                    <td>Всего Урона</td>
-                    <td>Убийств</td>
-                    <td>Урон по своим</td>
-                    <td>Урон петом</td>
-                    <td>Урон петом<br>по пету</td>
-                    <td>Команда</td>
-                </tr>
-                </thead>
-                <tbody>
-                <? foreach ($result as $nickname => $damages): ?>
-                    <tr>
-                        <td><?= $nickname ?></td>
-                        <td>
-                            <p class="lead">
-                                <?= $damages['sum'] ?>
-                                <span class="muted">
-                                    <?=round($damages['sum'] / ($teams[$damages['team']] / 100), 2) ?>%
-                                </span>
-                            </p>
-                        </td>
-                        <td><?= $damages['kills'] ?></td>
-                        <td><?= $damages['ally'] ?></td>
-                        <td><?= $damages['pet-enemy'] ?></td>
-                        <td><?= $damages['pet-pet'] ?></td>
-                        <td><?= $damages['team'] ?></td>
-                    </tr>
-                <? endforeach; ?>
-                </tbody>
-            </table>
+
+            <div>
+                Результат боя № <a target="_blank" href="http://www.roswar.ru/fight/<?=$result->getId()?>/"><?=$result->getId()?></a> <br>
+                <?=$result->getDate()->format('H:i:s (Y.m.d)')?>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <table class="table table-striped table-hover <?=$result->getWinner() == 1 ? 'winner' : 'looser'?>" id="left">
+                        <thead>
+                        <tr>
+                            <th>Ник</th>
+                            <th>Урон</th>
+                            <th>%</th>
+                            <th>Убийств</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <? foreach ($result->getPlayers(\Web\Document\PlayerStat::TEAM_LEFT) as $player): ?>
+                            <tr>
+                                <td><?=$player->getPlayer()->getNickname()?></td>
+                                <td><?=$player->getDamage()?></td>
+                                <td><?=round($player->getPercentage(), 2)?></td>
+                                <td><?=$player->getKills()?></td>
+                            </tr>
+                        <? endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="span6">
+                    <table class="table table-striped table-hover <?=$result->getWinner() == 2 ? 'winner' : 'looser'?>" id="right">
+                        <thead>
+                        <tr>
+                            <th>Ник</th>
+                            <th>Урон</th>
+                            <th>%</th>
+                            <th>Убийств</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <? foreach ($result->getPlayers(\Web\Document\PlayerStat::TEAM_RIGHT) as $player): ?>
+                            <tr>
+                                <td><?=$player->getPlayer()->getNickname()?></td>
+                                <td><?=$player->getDamage()?></td>
+                                <td><?=round($player->getPercentage(), 2)?></td>
+                                <td><?=$player->getKills()?></td>
+                            </tr>
+                        <? endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         <? endif; ?>
         <?= $this->form()->closeTag($form) ?>
     </div>
 </section>
+
+<? $this->headLink()->appendStylesheet('css/dataTables.css') ?>
+<? $this->headScript()->appendFile('js/jquery.dataTables.min.js') ?>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function ($) {
+        $('#left, #right').dataTable({
+            aaSorting:[[1, 'desc']],
+            sDom: '<"section"t>',
+            iDisplayLength: 1000
+        });
+    })(jQuery);
+//</script>
+<? $this->headScript()->captureEnd() ?>

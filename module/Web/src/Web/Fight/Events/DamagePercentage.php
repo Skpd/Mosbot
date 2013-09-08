@@ -18,10 +18,10 @@ class DamagePercentage
 
         foreach ($evt->getResult()->getPlayers() as $player) {
             /** @var PlayerStat $player */
-            if ($player->getDamage() == 0) {
+            if ($sum[$player->getTeam()] == 0) {
                 $player->setPercentage(0);
             } else {
-                $player->setPercentage($sum[$player->getTeam()] / $player->getDamage());
+                $player->setPercentage($player->getDamage() / $sum[$player->getTeam()] * 100);
             }
         }
     }

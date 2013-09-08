@@ -27,6 +27,12 @@ class PlayerStat
     private $damage = 0;
 
     /**
+     * @var float
+     * @ODM\Field(type="float")
+     */
+    private $percentage = 0;
+
+    /**
      * @var int
      * @ODM\Field(type="int")
      */
@@ -164,5 +170,21 @@ class PlayerStat
     public function incrementThrows()
     {
         $this->throws++;
+    }
+
+    /**
+     * @param float $percentage
+     */
+    public function setPercentage($percentage)
+    {
+        $this->percentage = $percentage;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPercentage()
+    {
+        return $this->percentage;
     }
 }

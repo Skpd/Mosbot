@@ -33,13 +33,13 @@ return [
 
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\BeginTime());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Separator());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Heal());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Bang());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\HelmetHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\NormalHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\StrikeHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\PetHit());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Miss());
 
                 $service->getEventManager()->attach('analyze.pre', new Fight\Events\Teams());

@@ -8,7 +8,7 @@ use \Doctrine\Common\Collections\ArrayCollection;
 /**
  * Class FightResult
  * @package Web\Document
- * @ODM\Document
+ * @ODM\Document(db="mosbot", collection="fights")
  */
 class FightResult
 {
@@ -32,7 +32,7 @@ class FightResult
 
     /**
      * @var \Datetime
-     * @ODM\Field(type="datetime")
+     * @ODM\Field(type="date")
      */
     private $date;
 
@@ -66,10 +66,16 @@ class FightResult
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param null $team
+     * @return ArrayCollection
      */
-    public function getPlayers()
+    public function getPlayers($team = null)
     {
+        if ($team !== null) {
+            return $this->players->filter(function ($player) use ($team) {
+                return $player->getTeam() == $team;
+            });
+        }
         return $this->players;
     }
 

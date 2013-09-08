@@ -24,6 +24,8 @@ class FightAnalyzer implements EventManagerAwareInterface, ServiceLocatorAwareIn
     public function analyze($id)
     {
         $result = new FightResult();
+        $result->setId($id);
+
         $query  = new Query(HttpClient::get($this->baseUrl . $id . '/0/')->getBody());
 
         $links = [];
@@ -47,6 +49,8 @@ class FightAnalyzer implements EventManagerAwareInterface, ServiceLocatorAwareIn
 
         $this->getDocumentManager()->persist($result);
         $this->getDocumentManager()->flush($result);
+
+        return $result;
     }
 
     public function processPage($pageNumber, $id, FightResult $result)
