@@ -74,7 +74,7 @@ class Event extends BaseEvent
      */
     public function clearDamage($str)
     {
-        return intval(str_replace([' ', '-', '(', ')'], '', $str));
+        return intval(preg_replace('/[^\d]/', '', $str));
     }
 
     /**

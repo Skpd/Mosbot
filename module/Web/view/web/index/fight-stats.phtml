@@ -23,6 +23,10 @@
     .table.looser thead {
         border: 1px solid red;
     }
+
+    .damage-tooltip {
+        border-bottom: 1px dashed #567189;
+    }
 </style>
 
 <section class="section section-padded">
@@ -46,7 +50,7 @@
         <? if (isset($result)): ?>
 
             <div>
-                Результат боя № <a target="_blank" href="http://www.roswar.ru/fight/<?=$result->getId()?>/"><?=$result->getId()?></a> <br>
+                Результат боя № <a target="_blank" href="http://www.roswar.ru/fight/<?=$result->getId()?>/"><?=$result->getId()?> <i class="icon-external-link"></i></a> <br>
                 <?=$result->getDate()->format('H:i:s (Y.m.d)')?>
             </div>
 
@@ -59,15 +63,29 @@
                             <th>Урон</th>
                             <th>%</th>
                             <th>Убийств</th>
+                            <th>Вылечено</th>
                         </tr>
                         </thead>
                         <tbody>
                         <? foreach ($result->getPlayers(\Web\Document\PlayerStat::TEAM_LEFT) as $player): ?>
                             <tr>
-                                <td><?=$player->getPlayer()->getNickname()?></td>
-                                <td><?=$player->getDamage()?></td>
+                                <td>
+                                    <a target="_blank" href="http://www.roswar.ru/player/<?=$player->getPlayer()->getId()?>/">
+                                        <?=$player->getPlayer()->getNickname()?>
+                                        <i class="icon-external-link"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="damage-tooltip" href="javascript:void(0);" data-toggle="tooltip"
+                                       title="Урон гранатами: <?=$player->getGrenadeDamage()?>
+
+Брошено гранат: <?=intval($player->getThrows())?>">
+                                        <?=$player->getDamage()?>
+                                    </a>
+                                </td>
                                 <td><?=round($player->getPercentage(), 2)?></td>
                                 <td><?=$player->getKills()?></td>
+                                <td><?=$player->getHealed()?></td>
                             </tr>
                         <? endforeach; ?>
                         </tbody>
@@ -82,15 +100,29 @@
                             <th>Урон</th>
                             <th>%</th>
                             <th>Убийств</th>
+                            <th>Вылечено</th>
                         </tr>
                         </thead>
                         <tbody>
                         <? foreach ($result->getPlayers(\Web\Document\PlayerStat::TEAM_RIGHT) as $player): ?>
                             <tr>
-                                <td><?=$player->getPlayer()->getNickname()?></td>
-                                <td><?=$player->getDamage()?></td>
+                                <td>
+                                    <a target="_blank" href="http://www.roswar.ru/player/<?=$player->getPlayer()->getId()?>/">
+                                        <?=$player->getPlayer()->getNickname()?>
+                                        <i class="icon-external-link"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="damage-tooltip" href="javascript:void(0);" data-toggle="tooltip"
+                                       title="Урон гранатами: <?=$player->getGrenadeDamage()?>
+
+Брошено гранат: <?=intval($player->getThrows())?>">
+                                        <?=$player->getDamage()?>
+                                    </a>
+                                </td>
                                 <td><?=round($player->getPercentage(), 2)?></td>
                                 <td><?=$player->getKills()?></td>
+                                <td><?=$player->getHealed()?></td>
                             </tr>
                         <? endforeach; ?>
                         </tbody>
@@ -108,10 +140,32 @@
 <? $this->headScript()->captureStart() ?>
 //<script type="text/javascript">
     (function ($) {
+        $.extend( $.fn.dataTableExt.oSort, {
+            "num-html-pre": function ( a ) {
+                var x = String(a).replace( /<[\s\S]*?>/g, "" );
+                return parseFloat( x );
+            },
+
+            "num-html-asc": function ( a, b ) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "num-html-desc": function ( a, b ) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        } );
+
         $('#left, #right').dataTable({
             aaSorting:[[1, 'desc']],
             sDom: '<"section"t>',
-            iDisplayLength: 1000
+            iDisplayLength: 1000,
+            aoColumns:[
+                null,
+                {sType: 'num-html'},
+                null,
+                null,
+                null
+            ]
         });
     })(jQuery);
 //</script>

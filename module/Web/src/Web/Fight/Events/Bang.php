@@ -23,7 +23,9 @@ class Bang
             $victim = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(1)->textContent));
 
             if ($this->attacker->getTeam() != $victim->getTeam()) {
-                $this->attacker->incrementDamage($evt->clearDamage($evt->getAction()->lastChild->textContent));
+                $damage = $evt->clearDamage($evt->getAction()->lastChild->textContent);
+                $this->attacker->incrementDamage($damage);
+                $this->attacker->incrementGrenadeDamage($damage);
             }
 
             $evt->stopPropagation();

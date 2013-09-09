@@ -27,6 +27,12 @@ class PlayerStat
     private $damage = 0;
 
     /**
+     * @var int
+     * @ODM\Field(type="int")
+     */
+    private $grenadeDamage = 0;
+
+    /**
      * @var float
      * @ODM\Field(type="float")
      */
@@ -186,5 +192,26 @@ class PlayerStat
     public function getPercentage()
     {
         return $this->percentage;
+    }
+
+    /**
+     * @param int $grenadeDamage
+     */
+    public function setGrenadeDamage($grenadeDamage)
+    {
+        $this->grenadeDamage = $grenadeDamage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGrenadeDamage()
+    {
+        return $this->grenadeDamage;
+    }
+
+    public function incrementGrenadeDamage($grenadeDamage)
+    {
+        $this->grenadeDamage += $grenadeDamage;
     }
 }
