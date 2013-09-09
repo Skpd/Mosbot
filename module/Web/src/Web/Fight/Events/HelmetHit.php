@@ -8,7 +8,21 @@ class HelmetHit
 {
     function __invoke(Event $evt)
     {
-        if (($evt->getAction()->attributes && $evt->getAction()->attributes->getNamedItem('class')->textContent == 'helmet ') || ($evt->getAction()->lastChild->attributes && $evt->getAction()->lastChild->attributes->getNamedItem('class')->textContent == 'helmethit')) {
+        if (
+            //helmet use
+            (
+                $evt->getAction()->attributes
+                && $evt->getAction()->attributes->getNamedItem('class')->textContent == 'helmet '
+            )
+            ||
+            //helmet hit
+            (
+                $evt->getAction()->lastChild
+                && $evt->getAction()->lastChild->attributes
+                && $evt->getAction()->lastChild->attributes->getNamedItem('class')
+                && $evt->getAction()->lastChild->attributes->getNamedItem('class')->textContent == 'helmethit'
+            )
+        ) {
             $evt->stopPropagation();
         }
     }
