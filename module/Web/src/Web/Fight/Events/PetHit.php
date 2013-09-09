@@ -9,8 +9,11 @@ class PetHit
 {
     public function __invoke(Event $evt)
     {
-        if (!in_array($evt->getAction()->firstChild->attributes->getNamedItem('class')->textContent, ['name-resident', 'name-arrived'])
-            && !in_array($evt->getAction()->childNodes->item(1)->attributes->getNamedItem('class')->textContent, ['name-resident', 'name-arrived'])) {
+        if ($evt->getAction()->childNodes->length >= 4
+            && $evt->getAction()->childNodes->item(1)->attributes->getNamedItem('class')->textContent != 'punch'
+            && $evt->getAction()->childNodes->item(2)->attributes
+            && $evt->getAction()->childNodes->item(2)->attributes->getNamedItem('class')->textContent != 'punch'
+        ) {
             return;
         }
 

@@ -38,6 +38,7 @@ return [
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\ForceJoin());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Bang());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\HelmetHit());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\Reflect());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\NormalHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\StrikeHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\PetHit());
