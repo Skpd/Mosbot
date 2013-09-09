@@ -35,6 +35,7 @@ return [
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Separator());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Heal());
+                $service->getEventManager()->attach('analyze.action', new Fight\Events\ForceJoin());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\Bang());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\HelmetHit());
                 $service->getEventManager()->attach('analyze.action', new Fight\Events\NormalHit());
