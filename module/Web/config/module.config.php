@@ -46,6 +46,7 @@ return [
 
                 $service->getEventManager()->attach('analyze.post', new Fight\Events\Winner());
                 $service->getEventManager()->attach('analyze.post', new Fight\Events\DamagePercentage());
+                $service->getEventManager()->attach('analyze.post', new Fight\Events\Finished());
 
                 return $service;
             }

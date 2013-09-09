@@ -36,6 +36,12 @@ class FightResult
      */
     private $date;
 
+    /**
+     * @var bool
+     * @ODM\Field(type="boolean")
+     */
+    private $finished = false;
+
     function __construct()
     {
         $this->players = new ArrayCollection();
@@ -109,5 +115,26 @@ class FightResult
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @param boolean $finished
+     */
+    public function setFinished($finished)
+    {
+        $this->finished = $finished;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getFinished()
+    {
+        return $this->finished;
+    }
+
+    public function isFinished()
+    {
+        return $this->finished;
     }
 }

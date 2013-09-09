@@ -23,6 +23,13 @@ class FightAnalyzer implements EventManagerAwareInterface, ServiceLocatorAwareIn
 
     public function analyze($id)
     {
+        $result = $this->getDocumentManager()->find('Web\Document\FightResult', $id);
+
+        if (!empty($result)) {
+            $this->getDocumentManager()->remove($result);
+            $this->getDocumentManager()->flush();
+        }
+
         $result = new FightResult();
         $result->setId($id);
 
