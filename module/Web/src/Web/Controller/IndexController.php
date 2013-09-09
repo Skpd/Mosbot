@@ -3,6 +3,7 @@
 namespace Web\Controller;
 
 use DOMNode;
+use Web\Fight\Exception\FightNotFoundException;
 use Zend\Dom\Query;
 use Zend\Http\ClientStatic;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -39,7 +40,12 @@ class IndexController extends AbstractActionController
             $result = $this->getDocumentManager()->find('Web\Document\FightResult', $id);
 
             if (empty($result) || !$result->isFinished()) {
-                $result = $this->serviceLocator->get('FightAnalyzer')->analyze($id);
+                try {
+                    $result = $this->serviceLocator->get('FightAnalyzer')->analyze($id);
+                } catch (FightNotFoundException $e) {
+                    $result = null;
+                    $view->setVariable('error', true);
+                }
             }
 
             $view->setVariable('result', $result);

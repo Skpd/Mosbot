@@ -4,6 +4,7 @@ namespace Web\Service;
 
 use Web\Document\FightResult;
 use Web\Fight\Event;
+use Web\Fight\Exception\FightNotFoundException;
 use Zend\Dom\Query;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;
@@ -34,6 +35,10 @@ class FightAnalyzer implements EventManagerAwareInterface, ServiceLocatorAwareIn
         $result->setId($id);
 
         $query  = new Query(HttpClient::get($this->baseUrl . $id . '/0/')->getBody());
+
+        if (!$query->execute('.fight-log')->count()) {
+            throw new FightNotFoundException("Fight $id not found.");
+        }
 
         $links = [];
 

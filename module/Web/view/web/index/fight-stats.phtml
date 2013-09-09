@@ -47,6 +47,12 @@
             </div>
         </div>
 
+        <? if (isset($error) && $error): ?>
+            <div class="section">
+                <p class="text-error">Стенку такую не найдешь ты.</p>
+            </div>
+        <? endif; ?>
+
         <? if (isset($result)): ?>
 
             <div>
