@@ -85,7 +85,12 @@
                                     <a class="damage-tooltip" href="javascript:void(0);" data-toggle="tooltip"
                                        title="Урон гранатами: <?=$player->getGrenadeDamage()?>
 
-Брошено гранат: <?=intval($player->getThrows())?>">
+Брошено гранат: <?=intval($player->getThrows())?>
+
+Попаданий: <?=$player->getNormalHits()?>
+
+Промахов: <?=$player->getMisses()?>
+">
                                         <?=$player->getDamage()?>
                                     </a>
                                 </td>
@@ -122,7 +127,11 @@
                                     <a class="damage-tooltip" href="javascript:void(0);" data-toggle="tooltip"
                                        title="Урон гранатами: <?=$player->getGrenadeDamage()?>
 
-Брошено гранат: <?=intval($player->getThrows())?>">
+Брошено гранат: <?=intval($player->getThrows())?>
+
+Попаданий: <?=$player->getNormalHits()?>
+
+Промахов: <?=$player->getMisses()?>">
                                         <?=$player->getDamage()?>
                                     </a>
                                 </td>

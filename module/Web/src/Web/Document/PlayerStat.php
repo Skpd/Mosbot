@@ -60,7 +60,25 @@ class PlayerStat
      * @var int
      * @ODM\Field(type="int")
      */
-    private $throws;
+    private $throws = 0;
+
+    /**
+     * @var int
+     * @ODM\Field(type="int")
+     */
+    private $normalHits = 0;
+
+    /**
+     * @var int
+     * @ODM\Field(type="int")
+     */
+    private $criticalHits = 0;
+
+    /**
+     * @var int
+     * @ODM\Field(type="int")
+     */
+    private $misses = 0;
 
     /**
      * @param int $damage
@@ -213,5 +231,53 @@ class PlayerStat
     public function incrementGrenadeDamage($grenadeDamage)
     {
         $this->grenadeDamage += $grenadeDamage;
+    }
+
+    /**
+     * @param int $criticalHits
+     */
+    public function setCriticalHits($criticalHits)
+    {
+        $this->criticalHits = $criticalHits;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCriticalHits()
+    {
+        return $this->criticalHits;
+    }
+
+    /**
+     * @param int $misses
+     */
+    public function setMisses($misses)
+    {
+        $this->misses = $misses;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMisses()
+    {
+        return $this->misses;
+    }
+
+    /**
+     * @param int $normalHits
+     */
+    public function setNormalHits($normalHits)
+    {
+        $this->normalHits = $normalHits;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNormalHits()
+    {
+        return $this->normalHits;
     }
 }

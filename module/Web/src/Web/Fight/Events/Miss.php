@@ -18,6 +18,9 @@ class Miss
             return;
         }
 
+        $attacker = $e->getPlayerByNickname($e->clearNickname($e->getAction()->childNodes->item(0)->textContent));
+        $attacker->setMisses($attacker->getMisses() + 1);
+
         $e->stopPropagation();
     }
 }

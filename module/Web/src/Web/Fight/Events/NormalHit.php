@@ -21,6 +21,7 @@ class NormalHit
 
         $damage = $evt->clearDamage($evt->getAction()->childNodes->item(3)->textContent);
         $attacker->incrementDamage($damage);
+        $attacker->setNormalHits($attacker->getNormalHits() + 1);
         $evt->stopPropagation();
     }
 }
