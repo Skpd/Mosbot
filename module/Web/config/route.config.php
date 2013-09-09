@@ -38,22 +38,12 @@ return [
                 ],
             ],
             'fight-stats' => [
-                'type'    => 'literal',
+                'type'    => 'segment',
                 'options' => [
-                    'route'    => '/fight-stats',
+                    'route'    => '/fight-stats[/:id][/]',
                     'defaults' => [
                         'controller' => 'Web\Controller\Index',
                         'action'     => 'fight-stats'
-                    ]
-                ]
-            ],
-            'map-test' => [
-                'type'    => 'literal',
-                'options' => [
-                    'route'    => '/map',
-                    'defaults' => [
-                        'controller' => 'PhlySimplePage\Controller\Page',
-                        'template'   => 'pages/library/map-test.phtml'
                     ]
                 ]
             ],
@@ -71,20 +61,10 @@ return [
                     'max-stats' => [
                         'type'    => 'literal',
                         'options' => [
-                            'route'    => '/max-stats',
+                            'route'    => '/max-stats[/]',
                             'defaults' => [
                                 'controller' => 'PhlySimplePage\Controller\Page',
                                 'template'   => 'pages/library/max-stats.phtml'
-                            ]
-                        ]
-                    ],
-                    'calc'      => [
-                        'type'    => 'literal',
-                        'options' => [
-                            'route'    => '/calc',
-                            'defaults' => [
-                                'controller' => 'PhlySimplePage\Controller\Page',
-                                'template'   => 'pages/library/calc.phtml'
                             ]
                         ]
                     ],

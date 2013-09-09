@@ -19,6 +19,8 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel();
 
+        $id = $this->params('id', null);
+
         /** @var \Zend\Form\Form $form */
         $form = $this->serviceLocator->get('FormElementManager')->get('FightStatsForm');
 
@@ -31,14 +33,18 @@ class IndexController extends AbstractActionController
                 preg_match('#/fight/(\d+)#i', $data['url'], $m);
                 $id = $m[1];
 
-                $result = $this->getDocumentManager()->find('Web\Document\FightResult', $id);
 
-                if (empty($result)) {
-                    $result = $this->serviceLocator->get('FightAnalyzer')->analyze($id);
-                }
-
-                $view->setVariable('result', $result);
             }
+        }
+
+        if (!empty($id)) {
+            $result = $this->getDocumentManager()->find('Web\Document\FightResult', $id);
+
+            if (empty($result)) {
+                $result = $this->serviceLocator->get('FightAnalyzer')->analyze($id);
+            }
+
+            $view->setVariable('result', $result);
         }
 
         $view->setVariable('form', $form);
