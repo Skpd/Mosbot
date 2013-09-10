@@ -42,6 +42,15 @@ return [
                         ]
                     ]
                 ],
+                'spider-players-level' => [
+                    'options' => [
+                        'route'    => 'spider update --level=',
+                        'defaults' => [
+                            'controller' => 'Runner\Controller\Spider',
+                            'action'     => 'update-by-level'
+                        ]
+                    ]
+                ],
             ],
         ],
     ],

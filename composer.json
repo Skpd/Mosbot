@@ -12,6 +12,7 @@
         "zendframework/zendframework": "2.*",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
         "phly/phly-simple-page": "dev-master",
-        "blanchonvincent/parallel-jobs": "dev-master"
+        "blanchonvincent/parallel-jobs": "dev-master",
+        "jyggen/curl": "dev-master"
     }
 }

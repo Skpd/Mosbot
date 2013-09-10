@@ -20,9 +20,29 @@ class Spider implements ServiceLocatorAwareInterface
     public function updatePlayer(Player $player)
     {
         $t = microtime(1);
-        $contents = $this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody();
-        $query = new Query($contents);
 
+        $query = $this->getContents($player);
+        $this->parsePlayer($player, $query);
+
+        $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
+        $dm->persist($player);
+
+        if ($dm->getUnitOfWork()->size() >= 100) {
+            $dm->flush();
+            $dm->clear();
+        }
+
+        echo 'Done ' . $player->getId() . ' (' . (microtime(1) - $t) . ' sec ' . memory_get_peak_usage(1) . ' mem)' .  PHP_EOL;
+    }
+
+    public function getContents(Player $player)
+    {
+        $contents = $this->getClient()->setUri($this->baseUrl . $player->getId())->send()->getBody();
+        return new Query($contents);
+    }
+
+    public function parsePlayer(Player $player, Query $query)
+    {
         $alignment = $query->execute('.user i')->current();
 
         if (!empty($alignment)) {
@@ -82,13 +102,6 @@ class Spider implements ServiceLocatorAwareInterface
             $player->getHealth() + $player->getStrength() + $player->getDexterity() +
             $player->getResistance() + $player->getIntuition() + $player->getAttention() + $player->getCharism()
         );
-
-        $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
-        $dm->persist($player);
-        $dm->flush();
-        $dm->clear();
-
-        echo 'Done ' . $player->getId() . ' (' . (microtime(1) - $t) . ' sec ' . memory_get_peak_usage(1) . ' mem)' .  PHP_EOL;
     }
 
     #region Getters / Setters

@@ -2,7 +2,9 @@
 
 namespace Runner\Controller;
 
+use jyggen\Curl;
 use Runner\Document\Player;
+use Zend\Dom\Query;
 use Zend\Mvc\Controller\AbstractActionController;
 use Runner\Service\Spider;
 
@@ -11,6 +13,52 @@ class SpiderController extends AbstractActionController
     /** @var Spider */
     private $spider;
     private $documentManager;
+
+    public function updateByLevelAction()
+    {
+        $level = intval($this->params('level', 0));
+
+        $players = $this->getDocumentManager()->getRepository('Runner\Document\Player')->findBy(['level' => $level]);
+
+        echo $players->count() . PHP_EOL;
+        $players->rewind();
+        $z = 0;
+        while ($players->valid()) {
+            $cache = [];
+
+            for ($i = 0; $i < 1 && $players->valid(); $i++) {
+                $player = $players->current();
+
+//                echo $player->getId();
+
+                $cache['links'][$i] = 'http://www.roswar.ru/player/' . $player->getId() . '/';
+                $cache['players'][$i] = $player;
+
+                $players->next();
+            }
+            $t = microtime(1);
+            $responses = Curl::get($cache['links']);
+            echo microtime(1) - $t . PHP_EOL;
+            foreach ($responses as $k => $response) {
+                $t = microtime(1);
+                $query = new Query($response->getContent());
+
+
+                $this->getSpider()->parsePlayer($cache['players'][$k], $query);
+                $this->getDocumentManager()->persist($cache['players'][$k]);
+
+                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 10) {
+                    $this->getDocumentManager()->flush();
+                    $this->getDocumentManager()->clear();
+                }
+
+                echo (microtime(1) - $t) . ' ' . $player->getId() .  ' ' . (++$z) . '/' . $players->count() . PHP_EOL;
+            }
+        }
+
+        $this->getDocumentManager()->flush();
+        $this->getDocumentManager()->clear();
+    }
 
     public function getPlayersAction()
     {
