@@ -40,8 +40,12 @@
 
             <div class="controls">
                 <div class="input-append">
-                    <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xlarge')->setAttribute('id', 'url')) ?>
+                    <?= $this->formElement($form->get('url')->setAttribute('class', 'input-xxlarge')->setAttribute('id', 'url')) ?>
                     <button type="submit" class="btn btn-primary"><i class="icon-refresh"></i></button>
+                    <? if (!empty($id)): ?>
+                        <a class="btn" href="<?=$this->url('fight-stats', ['id' => $id - 1])?>"><i class="icon-arrow-left"></i> Назад</a>
+                        <a class="btn" href="<?=$this->url('fight-stats', ['id' => $id + 1])?>">Далее <i class="icon-arrow-right"></i></a>
+                    <? endif; ?>
                 </div>
                 <?= $this->formElementErrors($form->get('url')) ?>
             </div>
@@ -55,7 +59,7 @@
 
         <? if (isset($result)): ?>
 
-            <div>
+            <div class="section">
                 Результат боя № <a target="_blank" href="http://www.roswar.ru/fight/<?=$result->getId()?>/"><?=$result->getId()?> <i class="icon-external-link"></i></a> <br>
                 <?=$result->getDate()->format('H:i:s (Y.m.d)')?>
             </div>

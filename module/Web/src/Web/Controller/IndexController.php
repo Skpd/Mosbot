@@ -52,6 +52,7 @@ class IndexController extends AbstractActionController
         }
 
         $view->setVariable('form', $form);
+        $view->setVariable('id', $id);
 
         return $view;
     }
