@@ -10,6 +10,7 @@ class ForceJoin
     {
         if ($evt->getAction()->attributes && $evt->getAction()->attributes->getNamedItem('class')->textContent == 'forcejoin ') {
             $evt->stopPropagation();
+            return __CLASS__;
         }
     }
 }

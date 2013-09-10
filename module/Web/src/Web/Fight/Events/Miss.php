@@ -3,24 +3,30 @@
 namespace Web\Fight\Events;
 
 use Web\Fight\Event;
+use Web\Fight\Exception\PlayerNotFoundException;
 
 class Miss
 {
-    public function __invoke(Event $e)
+    public function __invoke(Event $evt)
     {
-        if ($e->getAction()->childNodes->length != 3) {
+        if ($evt->getAction()->childNodes->length != 3) {
             return;
         }
 
-        $item = $e->getAction()->childNodes->item(1);
+        $item = $evt->getAction()->childNodes->item(1);
 
         if ($item->attributes && $item->attributes->getNamedItem('class')->textContent != 'miss') {
             return;
         }
 
-        $attacker = $e->getPlayerByNickname($e->clearNickname($e->getAction()->childNodes->item(0)->textContent));
-        $attacker->setMisses($attacker->getMisses() + 1);
+        try {
+            $attacker = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(0)->textContent));
+            $attacker->setMisses($attacker->getMisses() + 1);
+        } catch (PlayerNotFoundException $e) {
+            //pet miss, do nothing
+        }
 
-        $e->stopPropagation();
+        $evt->stopPropagation();
+        return __CLASS__;
     }
 }

@@ -39,10 +39,11 @@ class PetHit
             $damage = $evt->clearDamage($evt->getAction()->lastChild->textContent);
             $attacker->incrementDamage($damage);
             $evt->stopPropagation();
+            return __CLASS__;
         } catch (PlayerNotFoundException $e) {
             // pet-pet hit
             $evt->stopPropagation();
-            return;
+            return __CLASS__;
         }
     }
 }

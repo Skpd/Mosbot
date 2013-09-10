@@ -18,6 +18,7 @@ class Kill
             }
 
             $evt->stopPropagation();
+            return __CLASS__;
         }
     }
 }

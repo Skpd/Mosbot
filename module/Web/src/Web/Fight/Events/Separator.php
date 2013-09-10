@@ -10,12 +10,12 @@ class Separator
     {
         if ($e->getAction()->attributes->getNamedItem('class')->textContent == 'line') {
             $e->stopPropagation();
-            return;
+            return __CLASS__;
         }
 
         if ($e->getAction()->childNodes->length == 0) {
             $e->stopPropagation();
-            return;
+            return __CLASS__;
         }
     }
 }

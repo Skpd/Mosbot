@@ -24,6 +24,7 @@ class HelmetHit
             )
         ) {
             $evt->stopPropagation();
+            return __CLASS__;
         }
     }
 }

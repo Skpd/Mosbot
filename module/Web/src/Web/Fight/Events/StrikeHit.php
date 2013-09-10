@@ -27,5 +27,6 @@ class StrikeHit
         $attacker->incrementDamage($damage);
         $attacker->setNormalHits($attacker->getNormalHits() + 1);
         $evt->stopPropagation();
+        return __CLASS__;
     }
 }

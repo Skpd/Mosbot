@@ -15,6 +15,7 @@ class Heal
             $attacker->incrementHealed($heal);
 
             $evt->stopPropagation();
+            return __CLASS__;
         }
     }
 }

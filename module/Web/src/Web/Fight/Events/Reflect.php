@@ -16,12 +16,11 @@ class Reflect
 
         //normal hit
         if ($evt->getAction()->childNodes->length == 4 && $evt->getAction()->childNodes->item(1)->attributes->getNamedItem('class')->textContent == 'reflected') {
-            $attacker = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(0)->textContent));
             $damage = $evt->clearDamage($evt->getAction()->lastChild->textContent);
 
             try {
                 $victim = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(2)->textContent));
-                $attacker->incrementDamage($damage);
+                $victim->incrementDamage($damage);
             } catch (PlayerNotFoundException $e) {
                 //reflected pet hit, do nothing
             }
@@ -32,12 +31,11 @@ class Reflect
 
         //strike hit
         if ($evt->getAction()->childNodes->length == 5 && $evt->getAction()->childNodes->item(2)->attributes && $evt->getAction()->childNodes->item(2)->attributes->getNamedItem('class')->textContent == 'reflected') {
-            $attacker = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(1)->textContent));
             $damage = $evt->clearDamage($evt->getAction()->lastChild->textContent);
 
             try {
                 $victim = $evt->getPlayerByNickname($evt->clearNickname($evt->getAction()->childNodes->item(3)->textContent));
-                $attacker->incrementDamage($damage);
+                $victim->incrementDamage($damage);
             } catch (PlayerNotFoundException $e) {
                 //reflected pet hit, do nothing
             }

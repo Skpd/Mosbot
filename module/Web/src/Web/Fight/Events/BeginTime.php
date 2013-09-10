@@ -14,6 +14,7 @@ class BeginTime
             $e->getResult()->setDate($date);
 
             $e->stopPropagation();
+            return __CLASS__;
         }
 
         return false;

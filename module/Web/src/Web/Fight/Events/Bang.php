@@ -16,7 +16,7 @@ class Bang
             $this->attacker->incrementThrows();
 
             $evt->stopPropagation();
-            return;
+            return __CLASS__;
         }
 
         if ($this->attacker && $evt->getAction()->attributes->getNamedItem('class')->textContent == 'bang ') {
@@ -29,7 +29,7 @@ class Bang
             }
 
             $evt->stopPropagation();
-            return;
+            return __CLASS__;
         }
     }
 }
