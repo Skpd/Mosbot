@@ -59,7 +59,7 @@ return [
                 ],
                 'child_routes'  => [
                     'max-stats' => [
-                        'type'    => 'literal',
+                        'type'    => 'segment',
                         'options' => [
                             'route'    => '/max-stats[/]',
                             'defaults' => [
