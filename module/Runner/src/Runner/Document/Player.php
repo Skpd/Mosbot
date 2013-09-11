@@ -15,6 +15,7 @@ class Player
     const STATE_ACTIVE  = 'active';
     const STATE_FROZEN  = 'frozen';
     const STATE_BLOCKED = 'blocked';
+    const STATE_JAIL = 'jail';
 
     /** @ODM\Id(strategy="NONE", type="int") */
     private $id;

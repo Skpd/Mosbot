@@ -69,6 +69,10 @@ class Spider implements ServiceLocatorAwareInterface
             $player->setState(Player::STATE_FROZEN);
         }
 
+        if ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' jail-icon ')]")->count()) {
+            $player->setState(Player::STATE_JAIL);
+        }
+
         foreach ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' stats ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' stat ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' num ')]") as $k => $stat) {
             if ($k >= 7) {
                 break;
