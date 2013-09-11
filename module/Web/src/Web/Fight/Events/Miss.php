@@ -9,13 +9,9 @@ class Miss
 {
     public function __invoke(Event $evt)
     {
-        if ($evt->getAction()->childNodes->length != 3) {
-            return;
-        }
-
         $item = $evt->getAction()->childNodes->item(1);
 
-        if ($item->attributes && $item->attributes->getNamedItem('class')->textContent != 'miss') {
+        if ($item && $item->attributes && $item->attributes->getNamedItem('class')->textContent != 'miss') {
             return;
         }
 

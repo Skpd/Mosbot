@@ -85,7 +85,7 @@ class FightAnalyzer implements EventManagerAwareInterface, ServiceLocatorAwareIn
             $results = $events->trigger('analyze.action', $event);
 
             if (!$results->stopped()) {
-                \Zend\Debug\Debug::dump($action, 'Cant handle');exit;
+                throw new \Exception('Cant handle ' . $action->textContent);
             }
         }
 
