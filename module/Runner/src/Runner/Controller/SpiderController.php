@@ -2,6 +2,7 @@
 
 namespace Runner\Controller;
 
+use Doctrine\ODM\MongoDB\Cursor;
 use jyggen\Curl;
 use Runner\Document\Player;
 use Zend\Dom\Query;
@@ -14,50 +15,19 @@ class SpiderController extends AbstractActionController
     private $spider;
     private $documentManager;
 
+    public function updateRecentAction()
+    {
+        $players = $this->getDocumentManager()->getRepository('Runner\Document\Player')
+            ->findBy(['lastUpdate' => ['$gt' => new \DateTime('-21 days'), '$lt' => new \DateTime('-1 days')]]);
+        $this->updateByCursor($players);
+    }
+
     public function updateByLevelAction()
     {
         $level = intval($this->params('level', 0));
 
         $players = $this->getDocumentManager()->getRepository('Runner\Document\Player')->findBy(['level' => $level]);
-
-        echo $players->count() . PHP_EOL;
-        $players->rewind();
-        $z = 0;
-        while ($players->valid()) {
-            $cache = [];
-
-            for ($i = 0; $i < 1 && $players->valid(); $i++) {
-                $player = $players->current();
-
-//                echo $player->getId();
-
-                $cache['links'][$i] = 'http://www.roswar.ru/player/' . $player->getId() . '/';
-                $cache['players'][$i] = $player;
-
-                $players->next();
-            }
-            $t = microtime(1);
-            $responses = Curl::get($cache['links']);
-            echo microtime(1) - $t . PHP_EOL;
-            foreach ($responses as $k => $response) {
-                $t = microtime(1);
-                $query = new Query($response->getContent());
-
-
-                $this->getSpider()->parsePlayer($cache['players'][$k], $query);
-                $this->getDocumentManager()->persist($cache['players'][$k]);
-
-                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 10) {
-                    $this->getDocumentManager()->flush();
-                    $this->getDocumentManager()->clear();
-                }
-
-                echo (microtime(1) - $t) . ' ' . $player->getId() .  ' ' . (++$z) . '/' . $players->count() . PHP_EOL;
-            }
-        }
-
-        $this->getDocumentManager()->flush();
-        $this->getDocumentManager()->clear();
+        $this->updateByCursor($players);
     }
 
     public function getPlayersAction()
@@ -119,6 +89,45 @@ class SpiderController extends AbstractActionController
         }
 
         $this->getDocumentManager()->flush();
+    }
+
+    private function updateByCursor(Cursor $cursor)
+    {
+        $total = $cursor->count();
+
+        $cursor->rewind();
+        $z = 0;
+        while ($cursor->valid()) {
+            $cache = [];
+            for ($i = 0; $i < 50 && $cursor->valid(); $i++) {
+                $player = $cursor->current();
+
+                $cache['links'][$i] = 'http://www.roswar.ru/player/' . $player->getId() . '/';
+                $cache['players'][$i] = $player;
+
+                $cursor->next();
+            }
+
+            $responses = Curl::get($cache['links']);
+            foreach ($responses as $k => $response) {
+                /** @var \Symfony\Component\HttpFoundation\Response $response */
+                $t = microtime(1);
+                $query = new Query($response->getContent());
+
+                $this->getSpider()->parsePlayer($cache['players'][$k], $query);
+                $this->getDocumentManager()->persist($cache['players'][$k]);
+
+                if ($this->getDocumentManager()->getUnitOfWork()->size() >= 100) {
+                    $this->getDocumentManager()->flush();
+                    $this->getDocumentManager()->clear();
+                }
+
+                echo (microtime(1) - $t) . ' ' . $cache['players'][$k]->getId() .  ' ' . (++$z) . '/' . $total . PHP_EOL;
+            }
+        }
+
+        $this->getDocumentManager()->flush();
+        $this->getDocumentManager()->clear();
     }
 
     /**

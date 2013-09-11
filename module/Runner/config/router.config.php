@@ -51,6 +51,15 @@ return [
                         ]
                     ]
                 ],
+                'spider-players-recent' => [
+                    'options' => [
+                        'route'    => 'spider update',
+                        'defaults' => [
+                            'controller' => 'Runner\Controller\Spider',
+                            'action'     => 'update-recent'
+                        ]
+                    ]
+                ],
             ],
         ],
     ],

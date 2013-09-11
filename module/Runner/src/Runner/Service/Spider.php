@@ -43,7 +43,7 @@ class Spider implements ServiceLocatorAwareInterface
 
     public function parsePlayer(Player $player, Query $query)
     {
-        $alignment = $query->execute('.user i')->current();
+        $alignment = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]/descendant::i")->current();
 
         if (!empty($alignment)) {
             $player->setAlignment($alignment->attributes->getNamedItem('class')->textContent);
@@ -52,16 +52,24 @@ class Spider implements ServiceLocatorAwareInterface
             return;
         }
 
-        $player->setNickname($query->execute(".user a[href='/player/{$player->getId()}/']")->current()->textContent);
-        $player->setLevel(str_replace(['[', ']'], '', $query->execute(".user .level")->current()->textContent));
+        $player->setNickname($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]/descendant::a[@href = '/player/{$player->getId()}/']")->current()->textContent);
+        $player->setLevel(str_replace(['[', ']'], '', $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' level ')]")->current()->textContent));
 
-        if ($query->execute('.user a')->count() === 2) {
-            $player->setClan(preg_replace('/[^\d]+/', '', $query->execute('.user a')->current()->attributes->getNamedItem('href')->textContent));
+        if ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]/descendant::a")->count() === 2) {
+            $player->setClan(preg_replace('/[^\d]+/', '', $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' user ')]/descendant::a")->current()->attributes->getNamedItem('href')->textContent));
         } else {
             $player->setClan(0);
         }
 
-        foreach ($query->execute('.stats .stat .num') as $k => $stat) {
+        if ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' blocked ')]")->count()) {
+            $player->setState(Player::STATE_BLOCKED);
+        }
+
+        if ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' frozen ')]")->count()) {
+            $player->setState(Player::STATE_FROZEN);
+        }
+
+        foreach ($query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' stats ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' stat ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' num ')]") as $k => $stat) {
             if ($k >= 7) {
                 break;
             }
@@ -74,19 +82,19 @@ class Spider implements ServiceLocatorAwareInterface
             }
         }
 
-        $statistics = $query->execute('.pers-statistics .numbers li');
+        $statistics = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' numbers ')]/descendant::li");
 
         $player->setWins((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(1)->textContent));
         $player->setLoot((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(2)->textContent));
 
-        $maxLife = $query->execute('.pers-statistics .bars .life')->current()->childNodes->item(2)->textContent;
+        $maxLife = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' bars ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' life ')]")->current()->childNodes->item(2)->textContent;
         $maxLife = preg_replace('/[^\d]+/', '', $maxLife);
 
         $player->setMaxLife($maxLife);
 
         $items = [];
         for ($i = 0; $i < 9; $i++) {
-            $e = $query->execute(".slots .slot$i img")->current();
+            $e = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' slots ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' slot$i ')]/descendant::img")->current();
 
             if (!empty($e)) {
                 $items[$i] = $e->attributes->getNamedItem('src')->textContent;
