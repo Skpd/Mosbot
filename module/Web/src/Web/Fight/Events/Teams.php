@@ -17,7 +17,8 @@ class Teams
             );
 
             foreach ($items as $item) {
-                $playerID = intval(preg_replace('/[^\d]/', '', $item->attributes->getNamedItem('href')->textContent));
+                $playerID = explode('/', $item->attributes->getNamedItem('href')->textContent);
+                $playerID = intval($playerID[2]);
 
                 if (!$e->getResult()->getPlayers()->exists(
                     function ($key, $element) use ($playerID) {
