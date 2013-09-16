@@ -32,8 +32,19 @@
 <section class="section section-padded">
     <div class="container-fluid">
         <div class="section-header">
-            <h1>Анализатор Стенок</h1>
+            <h1 class="animated fadeinup delayed">
+                <span class="light">Анализатор</span> Стенок
+            </h1>
         </div>
+        <section class="section">
+            <div class="row-fluid">
+                <div class="super-hero-unit">
+                    <figure class="text-center">
+                        <img alt="some image" src="http://www.roswar.ru/css/images/loc/groupfight.png">
+                    </figure>
+                </div>
+            </div>
+        </section>
         <?= $this->form()->openTag($form->prepare()->setAttribute('action', $this->url(null, [], ['fragment' => 'results']))) ?>
         <div class="control-group">
             <label class="control-label" for="url">Ссылка на лог боя</label>
