@@ -40,7 +40,7 @@
             <div class="row-fluid">
                 <div class="super-hero-unit">
                     <figure class="text-center">
-                        <img alt="some image" src="http://www.roswar.ru/css/images/loc/groupfight.png">
+                        <img style="width: 100%;" alt="some image" src="http://www.roswar.ru/css/images/loc/groupfight.png">
                     </figure>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 
         <? if (isset($result)): ?>
 
-            <div class="section">
+            <div class="section" id="results">
                 Результат боя № <a target="_blank" href="http://www.roswar.ru/fight/<?=$result->getId()?>/"><?=$result->getId()?> <i class="icon-external-link"></i></a> <br>
                 <?=$result->getDate()->format('H:i:s (Y.m.d)')?>
             </div>
