@@ -1,18 +1,19 @@
 <?php
+
 return array(
     'doctrine' => array(
         'connection' => array(
             'orm_default' => array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
                 'params' => array(
-                    'host'     => 'localhost',
+                    'host'     => '192.168.1.102',
                     'port'     => '3306',
-                    'user'     => 'root',
-                    'password' => 'YJXudFtFxpen3qmT',
-                    'dbname'   => 'crown',
+                    'user'     => 'user',
+                    'password' => 'password',
+                    'dbname'   => 'roswar-info',
                     'charset'  => 'utf8',
                 )
             )
-        )
+        ),
     ),
 );

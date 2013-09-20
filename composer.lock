@@ -3,46 +3,52 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d7fe3237614d1dfbf44f79340826608d",
+    "hash": "f4fd70ceaa2b50397e0664573a24a48f",
     "packages": [
         {
-            "name": "blanchonvincent/parallel-jobs",
-            "version": "dev-master",
+            "name": "bacon/bacon-string-utils",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/blanchonvincent/ParallelJobs.git",
-                "reference": "aee447adccfef1a1a72cd4c6d00334c9a777052a"
+                "url": "https://github.com/Bacon/BaconStringUtils.git",
+                "reference": "191aee0419959417cc4a058e089b3ae8b99f6791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blanchonvincent/ParallelJobs/zipball/aee447adccfef1a1a72cd4c6d00334c9a777052a",
-                "reference": "aee447adccfef1a1a72cd4c6d00334c9a777052a",
+                "url": "https://api.github.com/repos/Bacon/BaconStringUtils/zipball/191aee0419959417cc4a058e089b3ae8b99f6791",
+                "reference": "191aee0419959417cc4a058e089b3ae8b99f6791",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
-                "zendframework/zendframework": "2.*"
+                "php": ">=5.3.3"
             },
-            "type": "module",
+            "suggest": {
+                "zendframework/zend-filter": "To use the Slugifier as a Zend\\Filter instance"
+            },
+            "type": "library",
             "autoload": {
                 "psr-0": {
-                    "ParallelJobs": "src/"
-                }
+                    "BaconStringUtils": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-2-Clause"
             ],
             "authors": [
                 {
-                    "name": "Vincent Blanchon",
-                    "email": "blanchon.vincent@gmail.com",
-                    "homepage": "http://developpeur-zend-framework.fr"
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "http://www.dasprids.de",
+                    "role": "Developer"
                 }
             ],
-            "description": "ZF2 module v1.5.0 - Fork Manager to manage parallel tasks - Use my SimpleMemoryShared to add features on this module",
-            "homepage": "https://github.com/blanchonvincent/ParallelJobs",
-            "time": "2012-12-07 21:08:42"
+            "description": "BaconStringUtils contain utitilies to work with strings.",
+            "homepage": "https://github.com/Bacon/BaconStringUtils",
+            "time": "2013-04-23 11:35:26"
         },
         {
             "name": "doctrine/annotations",
@@ -326,6 +332,71 @@
             "time": "2013-09-07 10:20:34"
         },
         {
+            "name": "doctrine/dbal",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "3eb557f144ec41e6e84997e43acb1946c92fbc88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/3eb557f144ec41e6e84997e43acb1946c92fbc88",
+                "reference": "3eb557f144ec41e6e84997e43acb1946c92fbc88",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": "~2.4",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/console": "~2.0"
+            },
+            "suggest": {
+                "symfony/console": "Allows use of the command line interface"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Database Abstraction Layer",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "dbal",
+                "persistence",
+                "queryobject"
+            ],
+            "time": "2013-09-07 10:49:18"
+        },
+        {
             "name": "doctrine/doctrine-module",
             "version": "0.7.2",
             "source": {
@@ -484,6 +555,86 @@
                 "zf2"
             ],
             "time": "2013-08-30 10:28:49"
+        },
+        {
+            "name": "doctrine/doctrine-orm-module",
+            "version": "0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/DoctrineORMModule.git",
+                "reference": "7d8ce6adc9e13edf08fbe3d002f22efbca83e9bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/7d8ce6adc9e13edf08fbe3d002f22efbca83e9bc",
+                "reference": "7d8ce6adc9e13edf08fbe3d002f22efbca83e9bc",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": ">=2.3-dev,<2.5-dev",
+                "doctrine/doctrine-module": "0.7.*",
+                "doctrine/orm": ">=2.3-dev,<2.5-dev",
+                "php": ">=5.3.3",
+                "zendframework/zend-form": "2.*",
+                "zendframework/zend-mvc": "2.*",
+                "zendframework/zend-servicemanager": "2.*",
+                "zendframework/zend-stdlib": "2.*"
+            },
+            "require-dev": {
+                "doctrine/migrations": "1.*",
+                "zendframework/zend-developer-tools": "dev-master"
+            },
+            "suggest": {
+                "doctrine/migrations": "doctrine migrations if you want to keep your schema definitions versioned",
+                "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "DoctrineORMModule\\": "src/",
+                    "DoctrineORMModuleTest\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kyle Spraggs",
+                    "email": "theman@spiffyjr.me",
+                    "homepage": "http://www.spiffyjr.me/"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://marco-pivetta.com/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Evan Coury",
+                    "email": "me@evancoury.com",
+                    "homepage": "http://blog.evan.pro/"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@hotmail.com"
+                }
+            ],
+            "description": "Zend Framework 2 Module that provides Doctrine ORM functionality",
+            "homepage": "http://www.doctrine-project.org/",
+            "keywords": [
+                "doctrine",
+                "module",
+                "orm",
+                "zf2"
+            ],
+            "time": "2013-01-13 19:47:34"
         },
         {
             "name": "doctrine/inflector",
@@ -734,6 +885,125 @@
             "time": "2013-06-06 19:15:45"
         },
         {
+            "name": "doctrine/orm",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/doctrine2.git",
+                "reference": "57705e0d781719b96daf322a6d6f66ff21e3cdc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/57705e0d781719b96daf322a6d6f66ff21e3cdc9",
+                "reference": "57705e0d781719b96daf322a6d6f66ff21e3cdc9",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/collections": "~1.1",
+                "doctrine/dbal": "~2.4",
+                "ext-pdo": "*",
+                "php": ">=5.3.2",
+                "symfony/console": "~2.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master",
+                "symfony/yaml": "~2.1"
+            },
+            "suggest": {
+                "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+            },
+            "bin": [
+                "bin/doctrine",
+                "bin/doctrine.php"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\ORM\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/"
+                },
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com",
+                    "homepage": "http://www.instaclick.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                }
+            ],
+            "description": "Object-Relational-Mapper for PHP",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database",
+                "orm"
+            ],
+            "time": "2013-09-07 16:19:56"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "d516e2f8de435ea78cc6152abc425d3ff2c4d289"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d516e2f8de435ea78cc6152abc425d3ff2c4d289",
+                "reference": "d516e2f8de435ea78cc6152abc425d3ff2c4d289",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2013-02-18 00:04:08"
+        },
+        {
             "name": "jyggen/curl",
             "version": "dev-master",
             "source": {
@@ -842,6 +1112,158 @@
                 "zf2"
             ],
             "time": "2013-04-29 13:00:12"
+        },
+        {
+            "name": "soflomo/blog",
+            "version": "v0.1.0-alpha5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Soflomo/Blog.git",
+                "reference": "64230852b980fdeb5a87d0f181de9a7336c686a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Soflomo/Blog/zipball/64230852b980fdeb5a87d0f181de9a7336c686a9",
+                "reference": "64230852b980fdeb5a87d0f181de9a7336c686a9",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-string-utils": ">=1.0.0",
+                "doctrine/doctrine-orm-module": ">=0.7.0",
+                "php": ">=5.3.3.",
+                "soflomo/common": ">=0.4.0",
+                "soflomo/purifier": ">=0.1.0",
+                "zendframework/zendframework": ">=2.1.0",
+                "zf-commons/zfc-admin": ">=0.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Soflomo\\Blog": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman",
+                    "email": "jurian@soflomo.com",
+                    "homepage": "http://soflomo.com"
+                }
+            ],
+            "description": "Blogging module for Ensemble",
+            "homepage": "https://github.com/Soflomo/Blog",
+            "keywords": [
+                "blog",
+                "zf2"
+            ],
+            "support": {
+                "source": "https://github.com/Soflomo/Blog/tree/v0.1.0-alpha5",
+                "issues": "https://github.com/Soflomo/Blog/issues"
+            },
+            "time": "2013-09-11 14:24:54"
+        },
+        {
+            "name": "soflomo/common",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Soflomo/Common.git",
+                "reference": "fdbb147fc8775ecd58b736e9575076d9540f28d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Soflomo/Common/zipball/fdbb147fc8775ecd58b736e9575076d9540f28d5",
+                "reference": "fdbb147fc8775ecd58b736e9575076d9540f28d5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3.",
+                "zendframework/zendframework": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Soflomo\\Common": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman",
+                    "email": "jurian@soflomo.com",
+                    "homepage": "http://soflomo.com"
+                }
+            ],
+            "description": "Utility module with Soflomo common classes",
+            "homepage": "https://github.com/Soflomo/Common",
+            "keywords": [
+                "zf2"
+            ],
+            "time": "2013-09-13 11:57:00"
+        },
+        {
+            "name": "soflomo/purifier",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Soflomo/Purifier.git",
+                "reference": "1f2d85a1b67bdb75bd86eb7a490e1c12280972b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Soflomo/Purifier/zipball/1f2d85a1b67bdb75bd86eb7a490e1c12280972b9",
+                "reference": "1f2d85a1b67bdb75bd86eb7a490e1c12280972b9",
+                "shasum": ""
+            },
+            "require": {
+                "ezyang/htmlpurifier": ">=4.5.0",
+                "php": ">=5.3.3.",
+                "zendframework/zendframework": "2.*"
+            },
+            "bin": [
+                "bin/purifier-generate-standalone"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Soflomo\\Purifier": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman",
+                    "email": "jurian@soflomo.com",
+                    "homepage": "http://soflomo.com"
+                }
+            ],
+            "description": "HTML Purifier as filter and view helper for Zend Framework 2 ",
+            "homepage": "https://github.com/Soflomo/Purifier",
+            "keywords": [
+                "Purifier",
+                "filter",
+                "html",
+                "purify",
+                "zf2"
+            ],
+            "time": "2013-04-23 10:33:41"
         },
         {
             "name": "symfony/console",
@@ -1059,6 +1481,59 @@
                 "zf2"
             ],
             "time": "2013-08-26 15:09:04"
+        },
+        {
+            "name": "zf-commons/zfc-admin",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ZF-Commons/ZfcAdmin.git",
+                "reference": "85b4d647ba4d080f66d79b0a9deb986db093117c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcAdmin/zipball/85b4d647ba4d080f66d79b0a9deb986db093117c",
+                "reference": "85b4d647ba4d080f66d79b0a9deb986db093117c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zendframework": "2.*"
+            },
+            "suggest": {
+                "bjyoungblood/bjy-authorize": "Access control to protect ZfcAdmin against unauthorized users"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ZfcAdmin": "src/"
+                },
+                "classmap": [
+                    "./Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jurian Sluiman ",
+                    "email": "jurian@juriansluiman.nl",
+                    "homepage": "http://juriansluiman.nl/en/"
+                },
+                {
+                    "name": "Martin Shwalbe",
+                    "email": "martin.shwalbe@gmail.com",
+                    "homepage": "http://hounddog.github.com"
+                }
+            ],
+            "description": "A generic Admin module for ZF2.",
+            "homepage": "https://github.com/juriansluiman/ZfcAdmin",
+            "keywords": [
+                "zf2"
+            ],
+            "time": "2013-04-23 09:31:59"
         }
     ],
     "packages-dev": [
@@ -1071,7 +1546,7 @@
     "stability-flags": {
         "doctrine/doctrine-mongo-odm-module": 20,
         "phly/phly-simple-page": 20,
-        "blanchonvincent/parallel-jobs": 20,
+        "soflomo/blog": 15,
         "jyggen/curl": 20
     },
     "platform": [
