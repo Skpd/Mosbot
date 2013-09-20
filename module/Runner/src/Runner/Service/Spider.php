@@ -109,6 +109,12 @@ class Spider implements ServiceLocatorAwareInterface
 
         $player->setItems($items);
 
+        $car = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' car-item ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' name ')]")->current();
+
+        if ($car) {
+            $player->setCar($car->textContent);
+        }
+
         $player->setLastUpdate(new \DateTime());
         $player->setCoolness(
             $player->getHealth() + $player->getStrength() + $player->getDexterity() +

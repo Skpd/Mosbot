@@ -67,6 +67,9 @@ class Player
     /** @ODM\Field(type="date") */
     private $lastChange;
 
+    /** @ODM\Field(type="string") */
+    private $car;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -410,5 +413,21 @@ class Player
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @param mixed $car
+     */
+    public function setCar($car)
+    {
+        $this->car = $car;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCar()
+    {
+        return $this->car;
     }
 }
