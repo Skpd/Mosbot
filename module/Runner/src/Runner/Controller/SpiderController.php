@@ -71,19 +71,38 @@ class SpiderController extends AbstractActionController
 //                $manager->rewind();
 //            }
 
+            $threads = 0;
+
             foreach ($ids as $id) {
-                $player = $this->getDocumentManager()->find('Runner\Document\Player', intval($id));
+                $pid = pcntl_fork();
 
-                if (empty($player)) {
-                    $player = new Player;
-                    $player->setId(intval($id));
+                if ($pid == -1) {
+                    die('could not fork');
+                } else if ($pid) {
+                    $threads++;
+
+                    while ($threads > 8) {
+                        if (pcntl_waitpid(0, $status) != -1) {
+                            $threads--;
+                        }
+                    }
+                } else {
+                    $player = $this->getDocumentManager()->find('Runner\Document\Player', intval($id));
+
+                    if (empty($player)) {
+                        $player = new Player;
+                        $player->setId(intval($id));
+                    }
+
+                    $this->getSpider()->updatePlayer($player);
+                    $player = null;
+                    exit;
                 }
-
-                $this->getSpider()->updatePlayer($player);
-                $player = null;
             }
 
-
+            while (pcntl_waitpid(0, $status) != -1) {
+                $threads--;
+            }
         } else {
             //todo: update existing players
         }

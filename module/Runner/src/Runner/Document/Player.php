@@ -72,7 +72,7 @@ class Player
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+//        $this->items = new ArrayCollection();
     }
 
     private function checkState($property, $value)

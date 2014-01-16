@@ -19,20 +19,18 @@ class Spider implements ServiceLocatorAwareInterface
 
     public function updatePlayer(Player $player)
     {
-        $t = microtime(1);
+//        $t = microtime(1);
 
         $query = $this->getContents($player);
         $this->parsePlayer($player, $query);
 
+        /** @var \Doctrine\ODM\MongoDB\DocumentManager $dm */
         $dm = $this->serviceLocator->get('doctrine.documentmanager.odm_default');
+
         $dm->persist($player);
+        $dm->flush();
 
-        if ($dm->getUnitOfWork()->size() >= 100) {
-            $dm->flush();
-            $dm->clear();
-        }
-
-        echo 'Done ' . $player->getId() . ' (' . (microtime(1) - $t) . ' sec ' . memory_get_peak_usage(1) . ' mem)' .  PHP_EOL;
+//        echo 'Done ' . $player->getId() . ' (' . (microtime(1) - $t) . ' sec' .  PHP_EOL;
     }
 
     public function getContents(Player $player)
@@ -86,34 +84,34 @@ class Spider implements ServiceLocatorAwareInterface
             }
         }
 
-        $statistics = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' numbers ')]/descendant::li");
+//        $statistics = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' numbers ')]/descendant::li");
 
-        $player->setWins((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(1)->textContent));
-        $player->setLoot((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(2)->textContent));
+//        $player->setWins((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(1)->textContent));
+//        $player->setLoot((int) preg_replace('/[^\d]/', '', $statistics->offsetGet(2)->textContent));
 
-        $maxLife = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' bars ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' life ')]")->current()->childNodes->item(2)->textContent;
-        $maxLife = preg_replace('/[^\d]+/', '', $maxLife);
+//        $maxLife = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' pers-statistics ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' bars ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' life ')]")->current()->childNodes->item(2)->textContent;
+//        $maxLife = preg_replace('/[^\d]+/', '', $maxLife);
+//
+//        $player->setMaxLife($maxLife);
+//
+//        $items = [];
+//        for ($i = 0; $i < 9; $i++) {
+//            $e = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' slots ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' slot$i ')]/descendant::img")->current();
+//
+//            if (!empty($e)) {
+//                $items[$i] = $e->attributes->getNamedItem('src')->textContent;
+//            } else {
+//                $items[$i] = null;
+//            }
+//        }
+//
+//        $player->setItems($items);
 
-        $player->setMaxLife($maxLife);
-
-        $items = [];
-        for ($i = 0; $i < 9; $i++) {
-            $e = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' slots ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' slot$i ')]/descendant::img")->current();
-
-            if (!empty($e)) {
-                $items[$i] = $e->attributes->getNamedItem('src')->textContent;
-            } else {
-                $items[$i] = null;
-            }
-        }
-
-        $player->setItems($items);
-
-        $car = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' car-item ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' name ')]")->current();
-
-        if ($car) {
-            $player->setCar($car->textContent);
-        }
+//        $car = $query->queryXpath("descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' car-item ')]/descendant::*[contains(concat(' ', normalize-space(@class), ' '), ' name ')]")->current();
+//
+//        if ($car) {
+//            $player->setCar($car->textContent);
+//        }
 
         $player->setLastUpdate(new \DateTime());
         $player->setCoolness(
