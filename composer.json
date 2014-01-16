@@ -17,8 +17,6 @@
     "require": {
         "zendframework/zendframework": "2.*",
         "doctrine/doctrine-mongo-odm-module": "dev-master",
-        "phly/phly-simple-page": "dev-master",
-        "soflomo/blog": "@alpha",
-        "jyggen/curl": "dev-master"
+        "phly/phly-simple-page": "dev-master"
     }
 }
