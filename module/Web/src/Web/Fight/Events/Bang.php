@@ -9,7 +9,7 @@ class Bang
     /** @var \Web\Document\PlayerStat */
     private $attacker;
 
-    private $poisonGrenades = ['Грязный носок' => 3];
+    private $poisonGrenades = ['Грязный носок' => 3, 'Бомба-вонючка' => 3];
     private $poisoned = false;
     private $poisonedTargets = [];
 
@@ -57,10 +57,10 @@ class Bang
                 if ($this->poisonedTargets[$k]['rounds'] == 0) {
                     unset($this->poisonedTargets[$k]);
                 }
-            }
 
-            $evt->stopPropagation();
-            return __CLASS__;
+                $evt->stopPropagation();
+                return __CLASS__;
+            }
         }
     }
 }
