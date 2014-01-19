@@ -73,6 +73,11 @@ class Bootstrap
         }
         return $dir . '/' . $path;
     }
+
+    public static function getFixturePath()
+    {
+        return realpath(__DIR__ . '/fixtures') . DIRECTORY_SEPARATOR;
+    }
 }
 
 Bootstrap::init();
