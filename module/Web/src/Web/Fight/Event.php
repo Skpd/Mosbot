@@ -84,10 +84,11 @@ class Event extends BaseEvent
      */
     public function clearNickname($str)
     {
-        $stuff = strrpos($str, '[');
+        $str     = str_replace([' ', '&nbsp;', chr(194).chr(160), chr(160)], ['', ''], $str);
+        $bracket = strpos($str, '[');
 
-        if ($stuff !== false) {
-            return substr($str, 0, $stuff - 2);
+        if ($bracket !== false) {
+            return substr($str, 0, strlen($str) - (strlen($str) - $bracket));
         }
 
         return $str;
