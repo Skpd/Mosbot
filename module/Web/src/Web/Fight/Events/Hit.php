@@ -10,10 +10,14 @@ class Hit
 {
     public function __invoke(Event $evt)
     {
-        $query = new Query($evt->getAction()->ownerDocument->saveHTML());
+        $query = new Query(
+            '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>'
+            . $evt->getAction()->ownerDocument->saveHTML($evt->getAction())
+            . '</body></html>'
+        );
 
         if ($query->execute('.name-resident, .name-arrived, .name-neutral')->count() === 2
-            && $query->execute('.punch')->count() === 1
+            && ($query->execute('.punch')->count() === 1 || $query->execute('.reflected')->count() === 1)
         ) {
             if (!preg_match('/\(-(\d+)\)/', $evt->getAction()->textContent, $matches)) {
                 return null;
@@ -23,8 +27,13 @@ class Hit
             $damage  = $matches[1];
 
             try {
-                $attacker = $evt->getPlayerByNickname($evt->clearNickname($players->current()->textContent));
-                $victim   = $evt->getPlayerByNickname($evt->clearNickname($players->next()->textContent));
+                if ($query->execute('.reflected')->count()) {
+                    $victim   = $evt->getPlayerByNickname($evt->clearNickname($players->current()->textContent));
+                    $attacker = $evt->getPlayerByNickname($evt->clearNickname($players->next()->textContent));
+                } else {
+                    $attacker = $evt->getPlayerByNickname($evt->clearNickname($players->current()->textContent));
+                    $victim   = $evt->getPlayerByNickname($evt->clearNickname($players->next()->textContent));
+                }
             } catch (PlayerNotFoundException $e) {
                 return null;
             }
