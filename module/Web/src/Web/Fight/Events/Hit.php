@@ -35,7 +35,9 @@ class Hit
                     $victim   = $evt->getPlayerByNickname($evt->clearNickname($players->next()->textContent));
                 }
             } catch (PlayerNotFoundException $e) {
-                return null;
+                //pet hit. todo: should we count pet damage?
+                $evt->stopPropagation();
+                return __CLASS__;
             }
 
             $attacker->incrementDamage($damage);
