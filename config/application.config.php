@@ -4,11 +4,6 @@ return [
     'modules'                 => [
         'DoctrineModule',
         'DoctrineMongoODMModule',
-        'DoctrineORMModule',
-        'ZfcAdmin',
-        'Soflomo\Purifier',
-        'Soflomo\Common',
-        'Soflomo\Blog',
         'PhlySimplePage',
         'Runner',
         'Web',
