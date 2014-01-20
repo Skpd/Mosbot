@@ -2,6 +2,8 @@
 
 namespace Web;
 
+use Web\Fight\Events;
+
 return [
     'form_elements' => [
         'invokables' => [
@@ -31,24 +33,29 @@ return [
                 $service = new Service\FightAnalyzer;
                 $service->setServiceLocator($sm);
 
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\BeginTime());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Separator());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Kill());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Heal());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\ForceJoin());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Bang());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\HelmetHit());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Reflect());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\NormalHit());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\StrikeHit());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\Miss());
-                $service->getEventManager()->attach('analyze.action', new Fight\Events\PetHit());
+                $eventManager = $service->getEventManager();
 
-                $service->getEventManager()->attach('analyze.pre', new Fight\Events\Teams());
+                $eventManager->attach('analyze.action', new Events\BeginTime());
+                $eventManager->attach('analyze.action', new Events\Separator());
+                $eventManager->attach('analyze.action', new Events\Kill());
+                $eventManager->attach('analyze.action', new Events\Heal());
+                $eventManager->attach('analyze.action', new Events\ForceJoin());
+                $eventManager->attach('analyze.action', new Events\Bang());
+                $eventManager->attach('analyze.action', new Events\HelmetHit());
+                $eventManager->attach('analyze.action', new Events\Shield());
+                $eventManager->attach('analyze.action', new Events\Hit());
+                $eventManager->attach('analyze.action', new Events\Miss());
+                $eventManager->attach('analyze.action', new Events\Reflect());
+                $eventManager->attach('analyze.action', new Events\Cheese());
+                $eventManager->attach('analyze.action', new Events\SovetAbilities());
+                $eventManager->attach('analyze.action', new Events\Banish());
+                $eventManager->attach('analyze.action', new Events\Flag());
 
-                $service->getEventManager()->attach('analyze.post', new Fight\Events\Winner());
-                $service->getEventManager()->attach('analyze.post', new Fight\Events\DamagePercentage());
-                $service->getEventManager()->attach('analyze.post', new Fight\Events\Finished());
+                $eventManager->attach('analyze.pre', new Events\Teams());
+
+                $eventManager->attach('analyze.post', new Events\Winner());
+                $eventManager->attach('analyze.post', new Events\DamagePercentage());
+                $eventManager->attach('analyze.post', new Events\Finished());
 
                 return $service;
             }
