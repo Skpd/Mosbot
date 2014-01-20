@@ -22,12 +22,12 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $event = new Event();
 
-        $this->assertEquals('KING-KONG', $event->clearNickname('KING-KONG [11]'), 'space 2 digit');
-        $this->assertEquals('KING-KONG', $event->clearNickname('KING-KONG [1]'), 'space 1 digit');
-        $this->assertEquals('KING-KONG', $event->clearNickname('KING-KONG[1]'), 'no space 2 digit');
-        $this->assertEquals('KING-KONG', $event->clearNickname('KING-KONG[11]'), 'no space 1 digit');
-        $this->assertEquals('Yarfond', $event->clearNickname('Yarfond&nbsp;[11]'), 'stuff 2 digit');
-        $this->assertEquals('Yarfond', $event->clearNickname('Yarfond&nbsp;[11]'), 'stuff 1 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран [11]'), 'space 2 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран [1]'), 'space 1 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран[1]'), 'no space 2 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран[11]'), 'no space 1 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран&nbsp;[11]'), 'stuff 2 digit');
+        $this->assertEquals('крутой тиран', $event->clearNickname('крутой тиран&nbsp;[11]'), 'stuff 1 digit');
     }
 
     public function testGetPlayerByNickname()

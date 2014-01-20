@@ -84,11 +84,12 @@ class Event extends BaseEvent
      */
     public function clearNickname($str)
     {
-        $str     = str_replace([' ', '&nbsp;', chr(194).chr(160), chr(160)], ['', ''], $str);
+        $str     = str_replace(['&nbsp;', chr(194).chr(160)], '', $str);
         $bracket = strpos($str, '[');
 
         if ($bracket !== false) {
-            return substr($str, 0, strlen($str) - (strlen($str) - $bracket));
+            $str = substr($str, 0, strlen($str) - (strlen($str) - $bracket));
+            $str = preg_replace('/\s+$/', '', $str);
         }
 
         return $str;
@@ -108,6 +109,11 @@ class Event extends BaseEvent
             }
         }
 
-        throw new PlayerNotFoundException("Player '$nickname' not found.");
+        throw new PlayerNotFoundException(sprintf(
+            "Player '$nickname' not found. Players list: %s",
+            implode(', ', array_map(function ($player) {
+                return $player->getPlayer()->getNickname();
+            }, $this->getResult()->getPlayers()->toArray()))
+        ));
     }
 }
