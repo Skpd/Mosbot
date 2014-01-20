@@ -12,6 +12,10 @@ class Shield
             && (
                 $evt->getAction()->attributes->getNamedItem('class')->textContent == 'antigranata2 '
                 || $evt->getAction()->attributes->getNamedItem('class')->textContent == 'antigranata '
+                || (
+                    $evt->getAction()->firstChild->attributes
+                    && $evt->getAction()->firstChild->attributes->getNamedItem('class')->textContent == 'icon shield'
+                )
             )
         ) {
             $evt->stopPropagation();
