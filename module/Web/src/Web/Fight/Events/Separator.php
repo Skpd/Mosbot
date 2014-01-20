@@ -8,7 +8,7 @@ class Separator
 {
     public function __invoke(Event $e)
     {
-        if ($e->getAction()->attributes->getNamedItem('class')->textContent == 'line') {
+        if ($e->getAction()->attributes && $e->getAction()->attributes->getNamedItem('class') && $e->getAction()->attributes->getNamedItem('class')->textContent == 'line') {
             $e->stopPropagation();
             return __CLASS__;
         }
