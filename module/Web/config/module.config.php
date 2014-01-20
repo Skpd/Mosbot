@@ -50,6 +50,7 @@ return [
                 $eventManager->attach('analyze.action', new Events\SovetAbilities());
                 $eventManager->attach('analyze.action', new Events\Banish());
                 $eventManager->attach('analyze.action', new Events\Flag());
+                $eventManager->attach('analyze.action', new Events\Shout());
 
                 $eventManager->attach('analyze.pre', new Events\Teams());
 
