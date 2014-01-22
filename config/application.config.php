@@ -7,6 +7,7 @@ return [
         'PhlySimplePage',
         'Runner',
         'Web',
+        'Blog',
     ],
     'module_listener_options' => [
         'config_glob_paths' => [

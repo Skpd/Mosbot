@@ -27,7 +27,7 @@ return array(
 //                'hydrator_dir'       => 'data/DoctrineMongoODMModule/Hydrator',
 //                'hydrator_namespace' => 'DoctrineMongoODMModule\Hydrator',
 //
-//                'default_db'         => null,
+                'default_db'         => 'roswar-info',
 //
 //                'filters'            => array(),  // array('filterName' => 'BSON\Filter\Class'),
 //

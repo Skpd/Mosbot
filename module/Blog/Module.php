@@ -35,7 +35,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
     {
         $config = new Config(array());
 
-        $iterator  = new \RegexIterator(new \DirectoryIterator(__DIR__ . '/config'), '#\.config\.php$#i');
+        $iterator  = new \RegexIterator(new \DirectoryIterator(__DIR__ . '/config'), '#\.php$#i');
         foreach ($iterator as $file) {
             /** @var $file \DirectoryIterator */
             if ($file->isReadable()) {

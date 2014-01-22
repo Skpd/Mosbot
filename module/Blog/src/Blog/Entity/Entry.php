@@ -17,7 +17,7 @@ class Entry
     /** @var DateTime */
     private $updated;
     /** @var boolean */
-    private $published;
+    private $published = false;
 
     /**
      * @param string $body

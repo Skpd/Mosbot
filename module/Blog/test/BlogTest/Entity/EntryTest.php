@@ -56,4 +56,11 @@ class EntryTest extends \PHPUnit_Framework_TestCase
         $this->entry->setPublished(true);
         $this->assertEquals(true, $this->entry->isPublished());
     }
+
+    public function testDefaultPublishedShouldBeFalse()
+    {
+        $entry = new Entry;
+
+        $this->assertFalse($entry->getPublished());
+    }
 }
